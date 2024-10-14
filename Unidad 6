@@ -1,0 +1,84 @@
+# Definimos el sistema de ecuaciones no lineales
+F <- function(x) {
+  f1 <- x[1]^2 + x[2]^2 - 4  # Primera ecuación
+  f2 <- exp(x[1]) + x[2] - 1  # Segunda ecuación
+  return(c(f1, f2))  # Devolvemos ambas ecuaciones como un vector
+}
+
+# Definimos la matriz jacobiana del sistema
+Jacobian <- function(x) {
+  j11 <- 2 * x[1]  # Derivada parcial de f1 respecto a x
+  j12 <- 2 * x[2]  # Derivada parcial de f1 respecto a y
+  j21 <- exp(x[1])  # Derivada parcial de f2 respecto a x
+  j22 <- 1  # Derivada parcial de f2 respecto a y
+  return(matrix(c(j11, j12, j21, j22), nrow = 2, byrow = TRUE))  # Matriz Jacobiana
+}
+
+# Implementamos el método de Newton-Raphson
+newton_raphson <- function(F, Jacobian, x0, tol = 1e-8, max_iter = 100) {
+  x <- x0  # Estimación inicial
+  for (i in 1:max_iter) {
+    Fx <- F(x)  # Evaluamos el sistema de ecuaciones en x
+    Jx <- Jacobian(x)  # Evaluamos la jacobiana en x
+    delta_x <- solve(Jx, -Fx)  # Resolvemos Jx * delta_x = -Fx
+    x <- x + delta_x  # Actualizamos la estimación
+    # Criterio de convergencia
+    if (sqrt(sum(delta_x^2)) < tol) {
+      cat("Convergencia alcanzada en", i, "iteraciones\n")
+      return(x)
+    }
+  }
+  stop("No se alcanzó la convergencia en el número máximo de iteraciones")
+}
+
+# Estimación inicial
+x0 <- c(1, 1)  # (x, y) inicial
+
+# Llamamos al método de Newton-Raphson
+solucion <- newton_raphson(F, Jacobian, x0)
+cat("Solución aproximada:\n", solucion, "\n")
+
+
+# Definimos el sistema de ecuaciones no lineales
+F <- function(x) {
+  f1 <- x[1]^2 + x[2]^2 - 4  # Primera ecuación
+  f2 <- exp(x[1]) + x[2] - 1  # Segunda ecuación
+  return(c(f1, f2))  # Vector de las funciones evaluadas en x
+}
+
+# Implementación del método de la secante para SENoL
+secante <- function(F, x0, x1, tol = 1e-8, max_iter = 100) {
+  # x0 y x1 son dos aproximaciones iniciales (vectores)
+  for (i in 1:max_iter) {
+    Fx0 <- F(x0)  # Evaluación de F en x0
+    Fx1 <- F(x1)  # Evaluación de F en x1
+
+    # Aproximación de la jacobiana usando diferencias finitas (gradiente)
+    J_approx <- (Fx1 - Fx0) / (x1 - x0)  # División elemento a elemento
+
+    # Resolución del sistema: J_approx * delta_x = -F(x1)
+    delta_x <- solve(diag(J_approx), -Fx1)  # Inversa de matriz diagonal
+
+    # Actualizamos la estimación
+    x_new <- x1 + delta_x
+
+    # Verificamos criterio de convergencia
+    if (sqrt(sum(delta_x^2)) < tol) {
+      cat("Convergencia alcanzada en", i, "iteraciones\n")
+      return(x_new)
+    }
+
+    # Actualizamos los valores para la siguiente iteración
+    x0 <- x1
+    x1 <- x_new
+  }
+  stop("No se alcanzó la convergencia en el número máximo de iteraciones")
+}
+
+# Estimaciones iniciales
+x0 <- c(1, 1)  # Aproximación inicial 1
+x1 <- c(1.1, 1.1)  # Aproximación inicial 2
+
+# Ejecutamos el método de la secante
+solucion <- secante(F, x0, x1)
+cat("Solución aproximada:\n", solucion, "\n")
