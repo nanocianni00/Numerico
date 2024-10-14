@@ -1,0 +1,15 @@
+puntofijo = function(p0, Tol,N){
+  i = 1
+  while(i <= N){
+    p= polinomio(p0)
+    if(abs(p - p0) < Tol){
+      return(p)
+    }
+   p0 = p
+    i = i + 1
+  }
+  return(paste("El metodo fallo luego de ", N, "iteraciones "))
+}
+ polinomio = function(x) {
+ (3*x^2 + 3)^(1/3)
+ }
