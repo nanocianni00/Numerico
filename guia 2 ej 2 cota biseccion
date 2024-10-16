@@ -1,21 +1,21 @@
-cota_biseccion <- function(a, b, tol, N) {
-  li <- list()
-  i <- 1
-  FA <- polinomio(a)
+cota_biseccion = function(a, b, tol, N) {
+  li = list()
+  i = 1
+  FA = polinomio(a)
   while (i <= N) {
-    p <- a + (b-a)/2
-    FP <- polinomio(p)
-    li <- append(li,p)
+    p = a + (b-a)/2
+    FP = polinomio(p)
+    li = append(li,p)
     cat("Iteración", i, "- p =", p, "\n")
     if (FP == 0 || (b-a)/2<tol) {
       return(paste("El método converge a",p,"después de",i,"iteraciones."))
     }
-    i <- i+1
+    i = i+1
     if (FP*FA > 0){
-      a <- p
-      FA <- FP
+      a = p
+      FA = FP
     } else {
-      b <- p
+      b = p
     }
   }
   return(paste('El método falló luego de ', N, ' iteraciones.'))
