@@ -1,36 +1,81 @@
+# Definimos la función del precio teórico (PT) en función de la TIR
 PT <- function(TIR, CF, t) {
-  sum(CF / (1 + TIR)^t)  
+  sum(CF / (1 + TIR)^t)  # Valor presente de los flujos de efectivo
 }
 
+# Implementamos el método de bisección para encontrar la TIR
 biseccion_TIR <- function(CF, t, PM, Tol = 10^(-5), N = 100) {
-  a <- 0  
-  b <- 1  
-  i <- 1  
+  a <- 0  # Límite inferior de TIR
+  b <- 1  # Límite superior de TIR (puede ajustarse)
+  i <- 1  # Contador de iteraciones
   
   while (i <= N) {
-    TIR <- (a + b) / 2  
-    PT_TIR <- PT(TIR, CF, t)  
+    TIR <- (a + b) / 2  # Punto medio
+    PT_TIR <- PT(TIR, CF, t)  # Precio teórico con la TIR actual
     
+    # Verificamos si hemos encontrado la raíz o si alcanzamos la tolerancia
     if (abs(PT_TIR - PM) < Tol) {
-      return(paste("La TIR es:", TIR*100, "% en", i, "iteraciones"))
+      return(paste("La TIR es:", round(TIR * 100, 4), "% en", i, "iteraciones"))
     }
     
+    # Ajustamos el intervalo [a, b]
     if (PT_TIR < PM) {
       a <- TIR
     } else {
       b <- TIR
     }
     
-    i <- i + 1  
+    i <- i + 1  # Incrementamos la iteración
   }
   
+  # Si no converge en N iteraciones, devolvemos un mensaje de error
   return("El método falló en converger dentro del número máximo de iteraciones")
 }
 
+# Definimos los datos del problema
+CF <- c(22, 22, 22, 122)  # Flujos de efectivo (3 cupones y el principal final)
+t <- c(1, 2, 3, 4)  # Tiempos en años
+PM <- 103.50  # Precio del mercado
 
-CF <- c(22, 22, 22, 122)  
-t <- c(1, 2, 3, 4)  
-PM <- 103.50  
-
-
+# Ejecutamos el cálculo de la TIR usando el método de bisección
 print(biseccion_TIR(CF, t, PM))
+
+
+
+# Definimos la función del precio del bono
+f_bono <- function(r) {
+  sum <- 0
+  for (t in 1:10) {
+    sum <- sum + 2.5 * (1 + 0.5 * r)^(-t)
+  }
+  precio <- sum + 100 * (1 + 0.5 * r)^(-10)
+  return(precio - 101.50)  # Diferencia con el precio objetivo
+}
+
+# Derivada de la función del bono con respecto a r
+df_bono <- function(r) {
+  sum <- 0
+  for (t in 1:10) {
+    sum <- sum - 2.5 * t * 0.5 * (1 + 0.5 * r)^(-t - 1)
+  }
+  derivada <- sum - 100 * 10 * 0.5 * (1 + 0.5 * r)^(-11)
+  return(derivada)
+}
+
+# Método de Newton-Raphson
+newton_raphson <- function(p0, tol, max_iter) {
+  i <- 1
+  while (i <= max_iter) {
+    p <- p0 - f_bono(p0) / df_bono(p0)  # Iteración de Newton-Raphson
+    if (abs(p - p0) < tol) {
+      return(paste("La tasa encontrada es:", round(p, 6), "en", i, "iteraciones"))
+    }
+    p0 <- p
+    i <- i + 1
+  }
+  return(paste("El método falló después de", max_iter, "iteraciones"))
+}
+
+# Llamada a la función con p0 = 0.1 (10%) como valor inicial
+resultado <- newton_raphson(0.1, 10^(-6), 100)
+print(resultado)
