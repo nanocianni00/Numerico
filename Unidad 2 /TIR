@@ -15,7 +15,7 @@ biseccion_TIR <- function(CF, t, PM, Tol = 10^(-5), N = 100) {
     
     # Verificamos si hemos encontrado la raíz o si alcanzamos la tolerancia
     if (abs(PT_TIR - PM) < Tol) {
-      return(paste("La TIR es:", round(TIR * 100, 4), "% en", i, "iteraciones"))
+      return(paste("La TIR es:", TIR * 100, "% en", i, "iteraciones"))
     }
     
     # Ajustamos el intervalo [a, b]
@@ -68,7 +68,7 @@ newton_raphson <- function(p0, tol, max_iter) {
   while (i <= max_iter) {
     p <- p0 - f_bono(p0) / df_bono(p0)  # Iteración de Newton-Raphson
     if (abs(p - p0) < tol) {
-      return(paste("La tasa encontrada es:", round(p, 6), "en", i, "iteraciones"))
+      return(paste("La tasa encontrada es:", p, "en", i, "iteraciones"))
     }
     p0 <- p
     i <- i + 1
