@@ -75,7 +75,7 @@ puntofijo = function(p0, Tol,N){
 
 
 
-newton_raphson <- function(p0, TOL,N){
+newton_raphson = function(p0, TOL,N){
   i = 1
   while(i<=N){
     x = p0
