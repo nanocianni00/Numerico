@@ -24,14 +24,6 @@ Polinomio<-function(x){
   return (devolver)
 }
 
-###1a
-raiz_biseccion(0,1,10^(-5),100)
-###1b
-Polinomio<-function(x){
-  rev <- (exp(1)^x)-(x^2)+3*x-2
-  return (rev)
-  }
-raiz_biseccion(0,1,10^(-5),100)
 
 
 # COTA BISEECION
@@ -80,81 +72,20 @@ puntofijo = function(p0, Tol,N){
   return(paste("El metodo fallo luego de ", N, "iteraciones "))
 }
 
-###3
-Polinomio= function(x){
-  f= (3*x^2 + 3)^(1/4)
-  return(f) 
-}
-puntofijo(1,10^(-2),100)
-
-###4
-Polinomio<-function(x){
-  y<-(x+1)^(1/3)
-  return (y)
-}
-puntofijo(1,10^(-2),100)
 
 
-#5 Punto fijo 
-#A g(x)=pi+0.5*sen(x/2) tiene un unico p. fijo en (0,2pi) con 10^-2
-#B Corolario para estimar las iteraciones con 10^-4
-
-#A Usamos el codigo de punto fijo del punto 3 y 4
-
-Polinomio= function(x){
-  f= pi+0.5*sin(x/2)
-  return(f) 
-}
-
-puntofijo(1,0.01,100)     #me difiere muy poco el ultimo decimal
-
-#B
-#Iteracion 1
-PF = puntofijo(1, 0.0001, 1)
-print(PF)
-#Iteracion 2
-PF = puntofijo(1, 0.0001, 2)
-print(PF)
-#Iteracion 3
-PF = puntofijo(1, 0.0001, 3)
-print
-#Iteracion 4
-PF = puntofijo(1, 0.0001, 4)
-print(PF)
-#Iteracion 5
-PF = puntofijo(1, 0.0001, 5)
-print(PF)                  #se termina ya que da el mismo rdo que el punto a
-
-
-
-
-#6 Newton para f(x)=-x^3-cos(x) con p0=-1 y con p0=0
-
-Polinomio_newton <- function(x){
-  f <- -x^3-cos(x)
-  return(f)
-}
-
-#CALCULAR LA DERIVADA
-df <- D(expression(-x^3-cos(x)),"x")
-df
-
-dfnewton <- function(x){
-  df <- -(3 * x^2 - sin(x))
-  return(df)
-}
 
 newton_raphson <- function(p0, TOL,N){
-  i <- 1
+  i = 1
   while(i<=N){
-    x <- p0
-    p <- p0- Polinomio_newton(p0)/dfnewton(p0)
+    x = p0
+    p = p0- Polinomio_newton(p0)/dfnewton(p0)
     print(p)
     if(abs(p-p0)<TOL){
       return(p)
     }
-    i <- i+1
-    p0 <- p
+    i = i+1
+    p0 = p
   }
   return(paste("El metodo fallo luego de", N,"iteraciones"))
 }
