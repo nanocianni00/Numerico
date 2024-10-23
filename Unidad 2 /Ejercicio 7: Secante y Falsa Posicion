@@ -16,6 +16,9 @@ secante = function(p0,p1,TOL,N){
   return(paste("El metodo fallo luego de",N,"iteraciones",p))
 }
 
+f_secante = function(x) {
+x^2 - 6
+}
 
 falsapos = function(p0,p1,TOL,N){
   i = 2
@@ -36,4 +39,8 @@ falsapos = function(p0,p1,TOL,N){
     q1 = q
   }
   return(paste("El metodo fallo luego de",N,"iteraciones"))
+}
+
+f_falsapos = function(x) {
+x^2 - 6
 }
