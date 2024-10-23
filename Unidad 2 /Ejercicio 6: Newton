@@ -14,10 +14,10 @@ newton_raphson = function(p0, TOL,N){
 }
 
 Polinomio_newton = function(x) { 
--x^(-3) - cos(x)
+-x^(3) - cos(x)
 }
 dfnewton = function(x) {
-3*x^(-4) - sin(x)
+-3*x^(2) - sin(x)
 }
 
 print (newton_raphson(-1,10^(-5),100))
