@@ -2,20 +2,17 @@
 #a polinomio grado 3-
 
 Lagrange = function(x_i, f_i, x) {
-v_x = rep(x,length(x_i))
 n = length(x_i)
-aux.1 = rep(NA,length(n))
-aux.2 = rep(NA,length(n))
+aux.1 = rep(NA, n))
+aux.2 = rep(NA, n)
 for(i in 1:n) {
 resta = x - x_i[-i]
 aux.1[i] = prod(resta)
-}
-for(i in 1:n) {
 resta.2 = x_i[i]-x_i[-i]
 aux.2[i] = prod(resta.2)
 }
 L = aux.1/aux.2
-rdo_interpolacion = sum(L*f_i)
+rdo_interpolacion = sum(L * f_i)
 return(rdo_interpolacion)
 }
 
