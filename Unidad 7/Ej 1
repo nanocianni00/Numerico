@@ -3,18 +3,16 @@
 
 Lagrange = function(x_i, f_i, x) {
 v_x = rep(x,length(x_i))
-resta = v_x - x_i
-aux.1 = rep(NA,length(x_i))
-aux.2 = rep(NA,length(x_i))
 n = length(x_i)
+aux.1 = rep(NA,length(n))
+aux.2 = rep(NA,length(n))
 for(i in 1:n) {
-resta = v_x - x_i
+resta = x - x_i
 resta[i] = 1
 aux.1[i] = prod(resta)
 }
 for(i in 1:n) {
-x_i_2 = rep(x_i[i], length(x_i))
-resta.2 = x_i_2-x_i
+resta.2 = x_i[i]-x_i
 resta.2[i] = 1
 aux.2[i] = prod(resta.2)
 }
