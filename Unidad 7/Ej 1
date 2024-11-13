@@ -1,6 +1,4 @@
-
-
-#Ejemplo
+# Ejercicio 1
 
 Lagrange = function(x_i, f_i, x) {
 v_x = rep(x,length(x_i))
