@@ -1,0 +1,76 @@
+# Ejercicio 1.a -----
+
+Lagrange = function(x_i, f_i, x) {
+v_x = rep(x,length(x_i))
+resta = v_x - x_i
+aux.1 = rep(NA,length(x_i))
+aux.2 = rep(NA,length(x_i))
+n = length(x_i)
+for(i in 1:n) {
+resta = v_x - x_i
+resta[i] = 1
+aux.1[i] = prod(resta)
+}
+for(i in 1:n) {
+x_i_2 = rep(x_i[i], length(x_i))
+resta.2 = x_i_2-x_i
+resta.2[i] = 1
+aux.2[i] = prod(resta.2)
+}
+L = aux.1/aux.2
+rdo_interpolacion = sum(L*f_i)
+return(rdo_interpolacion)
+}
+# Gráfico ----
+x_i = c()
+f_i = c()
+x =
+Lagrange(x_i, f_i,x)
+xvec = seq(from = min(x_i), to = max(x_i), length.out = 1000)
+Pxvec = rep(NA, 1000)
+for (i in 1:1000) {
+Pxvec[i] = Lagrange(x_i, f_i, xvec[i])
+}
+plot(x_i, f_i, xlab = "x", ylab ="f(x)", type = "b")
+points(x, Lagrange(x_i, f_i,x), col ="red", pch = 17)
+lines(xvec, Pcvec, col = "blue")
+
+#Ejemplo
+
+Lagrange = function(x_i, f_i, x) {
+v_x = rep(x,length(x_i))
+resta = v_x - x_i
+aux.1 = rep(NA,length(x_i))
+aux.2 = rep(NA,length(x_i))
+n = length(x_i)
+for(i in 1:n) {
+resta = v_x - x_i
+resta[i] = 1
+aux.1[i] = prod(resta)
+}
+for(i in 1:n) {
+x_i_2 = rep(x_i[i], length(x_i))
+resta.2 = x_i_2-x_i
+resta.2[i] = 1
+aux.2[i] = prod(resta.2)
+}
+L = aux.1/aux.2
+rdo_interpolacion = sum(L*f_i)
+return(rdo_interpolacion)
+}
+
+x_1 = c(0,0.25,0.5,0.75)
+f_1 = c(1,1.64872,2.71828,4.48169)
+x1 = 0.43
+
+Lagrange(x_1,f_1,x1)
+
+xvec = seq(from = min(x_1), to = max(x_1), length.out = 1000)
+Pxvec = rep(NA,1000)
+for (i in 1:1000) {
+Pxvec[i] = Lagrange(x_1, f_1, xvec[i])
+}
+
+plot(x_1, f_1, xlab = "x", ylab = "f(x)", type = "b")
+points(x1, Lagrange(x_1, f_1, x1), col = "red", pch= 17)
+lines(xvec, Pxvec, col = "blue")
