@@ -1,0 +1,63 @@
+diferencias_divididas = function(x, y) {
+n = length(x)
+column = c("x",paste("a", 0:(n-1),sep = ""))
+tabla_dd = matrix(0, n, n)
+tabla_dd[,1] = y
+for (i in 2:n) { #Columnas
+for (j in 1:(n - i + 1)) { #Filas
+tabla_dd[j, i] = (tabla_dd[j + 1, i - 1] - tabla_dd[j, i - 1])/(x[j + i - 1] - x[j])
+}
+}
+return (tabla_dd)
+}
+# Print polinomio ----
+coeficiente_a = c()
+for (i in 2:(n + 1)) {
+for (j in (1:n)) {
+if (i - j == 1) {
+coeficiente_a[j] = Tabla[j, i]
+}
+}
+}
+Poli_tabla = as.data.frame(matrix(NA, ncol = 4, nrow = n),
+dimnames = list(0:(n - 1), c("x", "coef", "prod")))
+Poli_tabla[, 1] = x
+Poli_tabla[, 2] = coeficiente_a
+for (k in (1:n)) {
+Poli_tabla[k, 3] = paste("(x-",Poli_tabla[k, 1], ")", sep = "")
+}
+Poli_tabla[1, 4] = Poli_tabla[1, 3]
+for(m in (2:n)) {
+Poli_tabla[m, 4] = paste(Poli_tabla[m - 1,4], "*",Poli_tabla[m, 3], sep = "")
+}
+Poli_final = as.data.frame(matrix(NA, ncol = 1, nrow = n))
+Poli_final[1,1] = Poli_tabla[1, 2]
+for (l in (2:n)) {
+Poli_final[l, 1] = paste(ifelse(Poli_tabla[l, 2] > 0, " + ", " - "),abs(Poli_tabla[l, 2]),"*",
+Poli_tabla[l - 1, 4], sep = "")
+}
+print(Tabla, na.print = "")
+print(paste("Pn(x) =", paste(Poli_final[, 1], collapse = "")))
+return(cbind(x, coeficiente_a))
+}
+# Para Obtener puntos a partir de la matriz devuelta en el algoritmo anterior ----
+fx_Newton = function(Matriz_difdiv, x) {
+n = nrow(Matriz_difdiv)
+Prod = matrix(NA, nrow = n, ncol = 2)
+Prod[, 1] = Matriz_difdiv[, 2]
+Prod[1,2] = 1
+for(i in 2:n) {
+Prod[i, 2] = (x-Matriz_difdiv[i - 1, 1])*Prod[i - 1, 2]
+}
+return(fx = sum(Prod[, 1]*Prod[, 2]))
+}
+# Resolucion ----
+x = c(8.1, 8.3, 8.6, 8.7)
+y = c(16.94410, 17.56492, 18.50515, 18.82091)
+a = DiferenciaDivividida_Newton(x, y)
+fx_Newton(a, 8.4)
+ppp = function(x) {
+fp = x + 9
+colarota = 1
+devolvemeesta = fp + colarota
+}
