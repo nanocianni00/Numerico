@@ -3,7 +3,7 @@
 
 Lagrange = function(x_i, f_i, x) {
 n = length(x_i)
-aux.1 = rep(NA, n))
+aux.1 = rep(NA, n)
 aux.2 = rep(NA, n)
 for(i in 1:n) {
 resta = x - x_i[-i]
