@@ -31,3 +31,10 @@ Pxvec[i] = Lagrange(x_1, f_1, xvec[i])
 plot(x_1, f_1, xlab = "x", ylab = "f(x)", type = "b")
 points(x1, Lagrange(x_1, f_1, x1), col = "red", pch= 17)
 lines(xvec, Pxvec, col = "blue")
+
+#b polinomio grado 3 empezando con -0.5
+
+x_1 = c(-0.5,-0.25,0.25)
+f_1 = c(1.93750,1.33203,0.800781)
+x1 = 0
+Lagrange(x_1,f_1,x1)
