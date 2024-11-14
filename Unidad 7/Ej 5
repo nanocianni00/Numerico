@@ -35,13 +35,13 @@ l[n] = 1
 z[n] = 0
 c[n] = 0
 #Paso 6
-for (i in j:1) {
+for (i in seq(j, 1, by = -1)) {
 c[i] = z[i] - u[i] * c[i + 1]
 b[i] = (a[i + 1] - a[i])/h[i] - h[i] * (c[i + 1] + 2*c[i])/3
 d[i] = (c[i + 1] - c[i])/(3*h[i])
 }
 #Paso 7
-results = matrix(rep(NA, 4*j), nrow = j, ncol = 4, byrow = F)
+results = matrix(rep(NA, 4 * j), nrow = j, ncol = 4, byrow = False)
 for (k in 1:j) {
 results[k, 1] = a[k]
 results[k, 2] = b[k]
@@ -49,9 +49,9 @@ results[k, 3] = c[k]
 results[k, 4] = d[k]
 }
 #Construyo el polinomio
-polinomios <- rep(NA, times = nrow(results))
-for (i in 1:nrow(results)) {
-polinomios[i] <- glue::glue(results[i,1])
+polinomios = rep(NA, times = j)
+for (i in 1:j) {
+polinomio = paste0(results[i,1])
 for(j in 2:ncol(results)){
 polinomios[i] <- polinomios[i] + glue::glue(" + ", results[i,j], " * (x - ", x[i], ")^", (j-1))
 }
