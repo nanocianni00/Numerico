@@ -1,0 +1,24 @@
+diferencias_divididas = function(x, y) {
+n = length(x)
+column = c("x",paste("a", 0:(n-1),sep = ""))
+tabla_dd = matrix(0, n, n)
+tabla_dd[,1] = y
+for (i in 2:n) { #Columnas
+for (j in 1:(n - i + 1)) { #Filas
+tabla_dd[j, i] = (tabla_dd[j + 1, i - 1] - tabla_dd[j, i - 1])/(x[j + i - 1] - x[j])
+}
+}
+return (tabla_dd)
+}
+
+polinomio_newton = function(x, tabla_dd, x_val) {
+n = length(x)
+result = tabla_dd[1, 1]
+product_term = 1
+for (j in 2:n) {
+product_term = product_term * (x_val - x[j - 1])
+result = result + tabla_dd [1, j] * product_term
+]
+return (result)
+}
+
