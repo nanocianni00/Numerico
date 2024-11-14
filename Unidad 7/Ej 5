@@ -51,13 +51,15 @@ results[k, 4] = d[k]
 #Construyo el polinomio
 polinomios = rep(NA, times = j)
 for (i in 1:j) {
-polinomio = glue("{results[i,1]}")
+polinomio = paste0("S", i, "(x) = ", results[i, 1])
 for(k in 2:4){
 polinomio = paste0(polinomio, glue(" + {results[i, k]} * (x - {x[i]})^{k - 1}"))
 }
-intervalo = paste0("Intervalo: [", x[i], "; ", x[i + 1], "]")
-polinomios[i] = polinomio
+intervalo = paste0("\nIntervalo: [", x[i], "; ", x[i + 1], "]")
+polinomios[i] = paste(polinomio, intervalo)
 }
-return(polinomios)
+for (p in polinomios) {
+    cat(p, "\n\n")
+}
 }
 print (TrazadorCubicoNatural(x = c(-0.5,-0.25,0.25,0.5), y = c(1.93750,1.33203,0.800781,0.687500)))
