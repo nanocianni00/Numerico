@@ -1,3 +1,5 @@
+library (glue)
+
 TrazadorCubicoNatural = function(x,y){
 n = length(y)
 j = n - 1
@@ -16,9 +18,7 @@ h[i] = x[i + 1] - x[i]
 }
 #Paso 2
 for (i in 2:j) {
-if(i != 1){
 A[i] = (3 * (a[i + 1] - a[i])/(h[i])) - (3 * (a[i] - a[i - 1]) /h[i - 1])
-}
 }
 #Paso 3
 l[1] = 1
@@ -41,7 +41,7 @@ b[i] = (a[i + 1] - a[i])/h[i] - h[i] * (c[i + 1] + 2*c[i])/3
 d[i] = (c[i + 1] - c[i])/(3*h[i])
 }
 #Paso 7
-results = matrix(rep(NA, 4 * j), nrow = j, ncol = 4, byrow = False)
+results = matrix(rep(NA, 4 * j), nrow = j, ncol = 4, byrow = FALSE)
 for (k in 1:j) {
 results[k, 1] = a[k]
 results[k, 2] = b[k]
@@ -51,12 +51,12 @@ results[k, 4] = d[k]
 #Construyo el polinomio
 polinomios = rep(NA, times = j)
 for (i in 1:j) {
-polinomio = paste0(results[i,1])
+polinomio = glue("{results[i,1]}")
 for(k in 2:4){
-polinomio = paste0(polinomio, " + ", results[i, k], " * (x - ", x[i], ")^", (k-1))
+polinomio = paste0(polinomio, glue(" + {results[i, k]} * (x - {x[i]})^{k - 1}"))
 }
 polinomios[i] = polinomio
 }
 return(polinomios)
 }
-print(TrazadorCubicoNatural(x = c(-0.5,-0.25,0.25,0.5), y = c(1.93750,1.33203,0.800781,0.687500))
+print (TrazadorCubicoNatural(x = c(-0.5,-0.25,0.25,0.5), y = c(1.93750,1.33203,0.800781,0.687500)))
