@@ -55,6 +55,7 @@ polinomio = glue("{results[i,1]}")
 for(k in 2:4){
 polinomio = paste0(polinomio, glue(" + {results[i, k]} * (x - {x[i]})^{k - 1}"))
 }
+intervalo = paste0("Intervalo: [", x[i], "; ", x[i + 1], "]")
 polinomios[i] = polinomio
 }
 return(polinomios)
