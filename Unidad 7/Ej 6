@@ -1,12 +1,60 @@
-xi = c(0, 0.25, 0.5, 0.75)
-yi = c(1, 1.64872, 2.71828, 4.48169)
-x_valor = seq(min(xi), max(xi), lenght.out = 100)
-y_newton = sapply (xi, polinomio_newton)
-y_traz = sapply (xi, TrazadorCubicoNatural)
-plot(xi, yi, xlab = "x", ylab = "f(x)", type = "b", pch = 19, col = "black",
-main = "Comparación entre Polinomio de Newton y Trazador Cúbico Natural")
-lines(x_valor, y_newton, col = "blue", lwd = 2)
-lines(x_valor, y_traz, col = "red", lwd = 2)
-x_val = 0.43
+# Función para evaluar el polinomio de Newton en un punto dado
+eval_polinomio_newton <- function(x_val, x, tabla_dd) {
+  n <- length(x)
+  result <- tabla_dd[1, 1]
+  
+  for (j in 2:n) {
+    term <- tabla_dd[1, j]
+    for (k in 1:(j - 1)) {
+      term <- term * (x_val - x[k])
+    }
+    result <- result + term
+  }
+  return(result)
+}
+
+# Función para evaluar el trazador cúbico en un punto dado
+eval_trazador_cubico <- function(x_val, x, coef) {
+  j <- length(x) - 1
+  for (i in 1:j) {
+    if (x[i] <= x_val && x_val <= x[i + 1]) {
+      a <- coef[i, 1]
+      b <- coef[i, 2]
+      c <- coef[i, 3]
+      d <- coef[i, 4]
+      dx <- x_val - x[i]
+      return(a + b * dx + c * dx^2 + d * dx^3)
+    }
+  }
+  return(NA) # Si x_val no está en ninguno de los intervalos
+}
+
+# Genera la tabla de diferencias divididas para Newton
+x_points <- c(-0.5, -0.25, 0.25, 0.5)
+y_points <- c(1.93750, 1.33203, 0.800781, 0.687500)
+tabla_dd <- diferencias_divididas(x_points, y_points)  # Asegúrate de tener esta función definida
+
+# Obtiene los coeficientes del trazador cúbico
+coeficientes_trazador <- TrazadorCubicoNatural(x_points, y_points)
+
+# Valores para graficar
+x_vals <- seq(min(x_points), max(x_points), length.out = 100)
+y_newton <- sapply(x_vals, eval_polinomio_newton, x = x_points, tabla_dd = tabla_dd)
+y_spline <- sapply(x_vals, eval_trazador_cubico, x = x_points, coef = coeficientes_trazador)
+
+# Gráfico comparativo
+plot(x_points, y_points, xlab = "x", ylab = "f(x)", type = "b", pch = 19, col = "black",
+     main = "Comparación entre Polinomio de Newton y Trazador Cúbico Natural")
+
+# Agrega el polinomio de Newton
+lines(x_vals, y_newton, col = "blue", lwd = 2)
+
+# Agrega el trazador cúbico natural
+lines(x_vals, y_spline, col = "red", lwd = 2)
+
+# Leyenda
+legend("topright", legend = c("Puntos originales", "Polinomio de Newton (grado 3)", "Trazador Cúbico Natural"), 
+       col = c("black", "blue", "red"), pch = c(19, NA, NA), lty = c(NA, 1, 1))
+
 
 
