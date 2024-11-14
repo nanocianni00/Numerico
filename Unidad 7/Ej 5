@@ -48,6 +48,7 @@ results[k, 2] = b[k]
 results[k, 3] = c[k]
 results[k, 4] = d[k]
 }
+return(reuslts)
 #Construyo el polinomio
 polinomios = rep(NA, times = j)
 for (i in 1:j) {
