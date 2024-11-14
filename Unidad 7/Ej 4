@@ -1,0 +1,23 @@
+#a-
+
+interpolacion_neville = function(x, y, x_incog) {
+n = length(x)
+q = matrix(data = 0, n, n)
+q[,1] = y
+for (j in 2:n) {
+for (i in 1:(n - j + 1)) {
+q[i, j] = ((x_incog - x[i + j - 1])*q[i, j - 1] - (x_incog - x[i])*q[i + 1, j - 1])/(x[i] - x[i + j - 1])
+}
+}
+print(paste('Valor aproximado=', q[1, n]))
+return(q)
+}
+
+x = c(0,0.25,0.5,0.75)
+y = c(1, 1.64872, 2.71828, 4.48169)
+x_incog = 0.43
+print(interpolacion_neville(x, y, x_incog))
+
+#b-
+
+x = c(
