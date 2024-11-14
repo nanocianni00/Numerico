@@ -11,13 +11,16 @@ tabla_dd[j, i] = (tabla_dd[j + 1, i - 1] - tabla_dd[j, i - 1])/(x[j + i - 1] - x
 return (tabla_dd)
 }
 
-polinomio_newton = function(x, tabla_dd, x_val) {
+polinomio_newton = function(x, tabla_dd) {
 n = length(x)
-result = tabla_dd[1, 1]
-product_term = 1
+result = as.character(tabla_dd[1, 1])
 for (j in 2:n) {
-product_term = product_term * (x_val - x[j - 1])
-result = result + tabla_dd [1, j] * product_term
+coef = tabla_dd[1, j]
+term = paste0("+", coef)
+for (k in 1:(j - 1)) {
+term = paste0(term, "*(x - ", x[k], ")")
+}
+result = paste0(result, term)
 }
 return (result)
 }
