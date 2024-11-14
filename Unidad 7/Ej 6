@@ -1,60 +1,51 @@
-# Función para evaluar el polinomio de Newton en un punto dado
-eval_polinomio_newton <- function(x_val, x, tabla_dd) {
-  n <- length(x)
-  result <- tabla_dd[1, 1]
-  
-  for (j in 2:n) {
-    term <- tabla_dd[1, j]
-    for (k in 1:(j - 1)) {
-      term <- term * (x_val - x[k])
-    }
-    result <- result + term
-  }
-  return(result)
+# Crea funciones para el polinomio de Newton y cada spline del trazador cúbico
+
+# Polinomio de Newton (usando los coeficientes que generaste con polinomio_newton)
+newton <- function(x) {
+  return(1.9375 + -2.42188 * (x - -0.5) + 1.81250933333333 * (x - -0.5) * (x - -0.25) + -1.00001066666667 * (x - -0.5) * (x - 0.25))
 }
 
-# Función para evaluar el trazador cúbico en un punto dado
-eval_trazador_cubico <- function(x_val, x, coef) {
-  j <- length(x) - 1
-  for (i in 1:j) {
-    if (x[i] <= x_val && x_val <= x[i + 1]) {
-      a <- coef[i, 1]
-      b <- coef[i, 2]
-      c <- coef[i, 3]
-      d <- coef[i, 4]
-      dx <- x_val - x[i]
-      return(a + b * dx + c * dx^2 + d * dx^3)
-    }
-  }
-  return(NA) # Si x_val no está en ninguno de los intervalos
+# Splines del trazador cúbico (usando los coeficientes de TrazadorCubicoNatural)
+spline1 <- function(x) {
+  return(1.9375 + -2.63867825 * (x - -0.5)^1 + 0 * (x - -0.5)^2 + 3.468772 * (x - -0.5)^3)
 }
 
-# Genera la tabla de diferencias divididas para Newton
-x_points <- c(-0.5, -0.25, 0.25, 0.5)
-y_points <- c(1.93750, 1.33203, 0.800781, 0.687500)
-tabla_dd <- diferencias_divididas(x_points, y_points)  # Asegúrate de tener esta función definida
+spline2 <- function(x) {
+  return(1.33203 - 1.9882835 * (x - -0.25)^1 + 2.601579 * (x - -0.25)^2 + -1.500016 * (x - -0.25)^3)
+}
 
-# Obtiene los coeficientes del trazador cúbico
-coeficientes_trazador <- TrazadorCubicoNatural(x_points, y_points)
+spline3 <- function(x) {
+  return(0.800781 + -0.5117165 * (x - 0.25)^1 + 0.351555000000001 * (x - 0.25)^2 + -0.468740000000001 * (x - 0.25)^3)
+}
 
-# Valores para graficar
-x_vals <- seq(min(x_points), max(x_points), length.out = 100)
-y_newton <- sapply(x_vals, eval_polinomio_newton, x = x_points, tabla_dd = tabla_dd)
-y_spline <- sapply(x_vals, eval_trazador_cubico, x = x_points, coef = coeficientes_trazador)
+# Define los puntos en los que quieres evaluar cada función
+newtonX <- seq(-0.5, 0.5, by = 0.01)
+spline1X <- seq(-0.5, -0.25, by = 0.01)
+spline2X <- seq(-0.25, 0.25, by = 0.01)
+spline3X <- seq(0.25, 0.5, by = 0.01)
 
-# Gráfico comparativo
-plot(x_points, y_points, xlab = "x", ylab = "f(x)", type = "b", pch = 19, col = "black",
-     main = "Comparación entre Polinomio de Newton y Trazador Cúbico Natural")
+# Calcula los valores de Y para cada tramo
+newtonY <- newton(newtonX)
+spline1Y <- spline1(spline1X)
+spline2Y <- spline2(spline2X)
+spline3Y <- spline3(spline3X)
 
-# Agrega el polinomio de Newton
-lines(x_vals, y_newton, col = "blue", lwd = 2)
+# Crea data frames para graficar
+df_newton <- data.frame(newtonX, newtonY)
+df_spline1 <- data.frame(spline1X, spline1Y)
+df_spline2 <- data.frame(spline2X, spline2Y)
+df_spline3 <- data.frame(spline3X, spline3Y)
 
-# Agrega el trazador cúbico natural
-lines(x_vals, y_spline, col = "red", lwd = 2)
-
-# Leyenda
-legend("topright", legend = c("Puntos originales", "Polinomio de Newton (grado 3)", "Trazador Cúbico Natural"), 
-       col = c("black", "blue", "red"), pch = c(19, NA, NA), lty = c(NA, 1, 1))
-
-
+# Graficar utilizando ggplot2
+library(ggplot2)
+ggplot() +
+with(df_newton, geom_line(aes(newtonX, newtonY), colour = "darkblue", lwd = 1.2)) + 
+with(df_spline1, geom_line(aes(spline1X, spline1Y), colour = "red", lwd = 1.2)) +
+with(df_spline2, geom_line(aes(spline2X, spline2Y), colour = "red", lwd = 1.2)) +
+with(df_spline3, geom_line(aes(spline3X, spline3Y), colour = "red", lwd = 1.2)) +
+geom_hline(yintercept = 0, color = "black") +  
+geom_vline(xintercept = 0, color = "black") +
+labs(x = "x", y = "f(x)", title = "Comparación entre Polinomio de Newton y Trazador Cúbico Natural") +
+theme_minimal() +
+theme(plot.title = element_text(hjust = 0.5))
 
