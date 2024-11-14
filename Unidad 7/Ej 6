@@ -1,1 +1,12 @@
-plot
+xi = c(0, 0.25, 0.5, 0.75)
+yi = c(1, 1.64872, 2.71828, 4.48169)
+x_valor = seq(min(xi), max(xi), lenght.out = 100)
+y_newton = sapply (xi, polinomio_newton)
+y_traz = sapply (xi, TrazadorCubicoNatural)
+plot(xi, yi, xlab = "x", ylab = "f(x)", type = "b", pch = 19, col = "black",
+main = "Comparación entre Polinomio de Newton y Trazador Cúbico Natural")
+lines(x_valor, y_newton, col = "blue", lwd = 2)
+lines(x_valor, y_traz, col = "red", lwd = 2)
+x_val = 0.43
+
+
