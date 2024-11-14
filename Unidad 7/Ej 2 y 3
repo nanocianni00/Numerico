@@ -18,7 +18,7 @@ product_term = 1
 for (j in 2:n) {
 product_term = product_term * (x_val - x[j - 1])
 result = result + tabla_dd [1, j] * product_term
-]
+}
 return (result)
 }
 
