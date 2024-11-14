@@ -21,4 +21,5 @@ result = result + tabla_dd [1, j] * product_term
 }
 return (result)
 }
+tabla_dd = diferencias_divididas(x, y)
 
