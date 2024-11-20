@@ -1,0 +1,68 @@
+# n = 1. Trapecio
+# n = 2. Simpson
+
+PuntoMedioCompuesta <- function(limiteInferior, limiteSuperior, funcion, n){
+ h <- (limiteSuperior - limiteInferior)/(n + 2)
+ 
+ suma <- 0
+ 
+ x <- rep(NA, times = (n+2))
+ for (i in -1:(n+1)) {
+   x[i+2] <- limiteInferior + (i + 1) * h
+ }
+ 
+ for (j in 1:(n/2+1)) {
+   suma <- suma + eval(funcion, list(x = x[2*j]))
+ }
+ return(2 * h * suma)
+} 
+
+
+IntegracionCompuesta <- function(limiteInferior, limiteSuperior, funcion, n, cantIntervalos){
+  
+  #browser()
+  if ((n == 2 || n == 0) && cantIntervalos%%2 != 0){
+    return("cantIntervalos debe ser un entero par")
+  }
+  
+  cantIntervalos <- cantIntervalos/n
+  
+  
+  crecimientoIntervalo <- (limiteSuperior-limiteInferior)/cantIntervalos
+  
+  fx <- rep(NA, times = (n+1))
+  
+  resultado <- 0
+  
+  for (i in 1:cantIntervalos) {
+    limiteSuperior <- limiteInferior + crecimientoIntervalo
+    
+    if (n != 0){
+      h <- (limiteSuperior - limiteInferior)/n
+    }
+    
+    
+    for (i in 1:(n+1)) {
+      fx[i] <- eval(funcion, list(x = limiteInferior + (i-1)*h))
+    }
+    
+    # Trapecio
+    if (n == 1){
+      resultado <- resultado + (h/2) * (fx[1] + fx[2])
+    }
+    #Simpson
+    else if(n == 2){
+      resultado <- resultado + (h/3) * (fx[1] + 4*fx[2] + fx[3])
+    }
+    
+    limiteInferior <- limiteSuperior
+  }
+  
+  return(resultado)
+}
+
+##3.1.2.3-a-
+
+IntegracionCompuesta(limiteInferior = 1, limiteSuperior = 2, funcion = expression(x*log(x)), cantIntervalos = 4, n = 1)
+IntegracionCompuesta(limiteInferior = 1, limiteSuperior = 2, funcion = expression(x*log(x)), cantIntervalos = 4, n = 2)
+PuntoMedioCompuesta(limiteInferior = 1, limiteSuperior = 2, funcion = expression(x*log(x)), n = 4)
