@@ -18,3 +18,20 @@ integracion <- function(funcion, limiteSuperior, limiteInferior, n){
   resultados <- list("error" = error, "alfa" =  alturaPromedio * anchoBase)
   return(resultados)
 }
+
+N <- 10000
+resultado <- matrix(NA, nrow = N, ncol = 2)
+set.seed(123)
+
+for (i in 1:N) {
+  # Genera un número aleatorio con distribucion binomial
+  n <- rbinom(n = 1, size = 1200, prob = 0.7984)
+
+  resultado[i, 1] <- n
+
+  xi <- rchisq(df = 2, n = n)
+
+  suma <- sum(xi)
+
+  resultado[i,2] <- suma
+}
