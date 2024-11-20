@@ -20,3 +20,20 @@ n_varianza <- var(resultado[,1])
 
 suma_esperanza <- mean(resultado[,2])
 suma_varianza <- var(resultado[,2])
+
+##a- 
+
+n_esperanza
+
+##b- 
+
+n_varianza
+
+##c-
+
+suma_esperanza
+
+##d-
+
+sqrt(suma_varianza)
+
