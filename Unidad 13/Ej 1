@@ -1,0 +1,74 @@
+##a-
+
+integracion <- function(funcion, limiteSuperior, limiteInferior, n){
+  uniforme <- limiteInferior + (limiteSuperior - limiteInferior) * runif(n = n)
+  
+  alturaPromedio <- 1/n * sum(funcion(uniforme))
+  
+  anchoBase <- limiteSuperior - limiteInferior
+  
+  desvioEstandar <- sqrt( 1/(n-1) * sum((funcion(uniforme) * (limiteSuperior - limiteInferior) - alturaPromedio * anchoBase)^2) )
+  
+  error <- desvioEstandar/sqrt(n)
+  
+  resultados <- list("error" = error, "alfa" =  alturaPromedio * anchoBase)
+  return(resultados)
+}
+
+funcion <- function(x){
+  return(sqrt(x+5)*sin(x))
+}
+
+integracion(funcion = funcion, limiteSuperior = 6, limiteInferior = 2, n = 10000)
+
+#Grafico
+x <- seq(from = 2, to = 6, by = 0.01)
+fx <- funcion(x)
+
+x1 <- seq(from = 0, to = 8, by = 0.01)
+fx1 <- funcion(x1)
+
+ggplot() +
+  geom_area(aes(x = x, y = fx )) +
+  geom_line(aes(x = x1, y = fx1))
+
+##b- 
+
+media <- 7
+desvio <- 5
+funcion <- function(x){
+  return((1/(desvio * sqrt(2*pi))) * exp(-(x-media)^2/(2*desvio^2)))
+}
+
+integracion(funcion = funcion, limiteSuperior = 8, limiteInferior = 5, n = 10000)
+
+#Grafico
+x <- seq(from = 5, to = 8, by = 0.01)
+fx <- funcion(x)
+
+x1 <- seq(from = -30, to = 30, by = 0.01)
+fx1 <- funcion(x1)
+
+ggplot() +
+  geom_area(aes(x = x, y = fx )) +
+  geom_line(aes(x = x1, y = fx1))
+
+##d-
+
+funcion = function(x){
+return(x*log(x^3)+12*cos(x))
+}
+
+integracion(funcion = funcion, limiteSuperior = 20, limiteInferior = 12, n = 10000)
+
+#Grafico
+
+x = seq(from = 12, to = 20, by = 0.01)
+fx = funcion(x)
+
+x1 = seq(from = 10, to = 25, by = 0.01)
+fx1 = funcion(x1)
+
+ggplot() + 
+  geom_area(aes(x = x, y = fx)) + 
+  geom_line(aes(x = x1, y = fx1))
