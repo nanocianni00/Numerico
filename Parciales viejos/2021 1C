@@ -33,4 +33,39 @@ newtonCotesCerradas(limiteInferior = 12.68, limiteSuperior = 20.42, funcion = ex
 
 ##b-
 
+simpson_compuesto <- function(limiteInferior, limiteSuperior, funcion, n) {
+  h <- (limiteSuperior - limiteInferior) / n
+  suma <- 0
+  for (i in 1:(n/2)) {
+    xi <- limiteInferior + (2*i - 2)*h
+    xi_1 <- limiteInferior + (2*i - 1)*h
+    xi_2 <- limiteInferior + 2*i*h
+    
+    fx0 <- eval(funcion, list(x = xi))
+    fx1 <- eval(funcion, list(x = xi_1))
+    fx2 <- eval(funcion, list(x = xi_2))
+    
+    suma <- suma + (h / 3) * (fx0 + 4 * fx1 + fx2)
+  }
+  return(suma)
+}
 
+simpson_compuesto(limiteInferior = 12.68, limiteSuperior = 20.42, funcion = expression(1 / (x * (0.22*sqrt(0.75)) * sqrt(2 * pi)) * exp(-((log(x) - 2.77)^2) / (2 * (0.22*sqrt(0.75))^2))), n = 1000)
+
+##c-
+
+trapecioCompuesto <- function(limiteInferior, limiteSuperior, funcion, n) {
+  h <- (limiteSuperior - limiteInferior) / n
+  x <- seq(limiteInferior, limiteSuperior, by = h)  # Puntos en el intervalo
+  fx <- sapply(x, funcion)  # Evalúa la función en cada punto
+  
+  integral <- (h / 2) * (fx[1] + 2 * sum(fx[2:n]) + fx[n + 1])
+  
+  return(integral)
+}
+
+trapecioCompuesto(limiteInferior = 12.68, limiteSuperior = 20.42, funcion = expression(1 / (x * (0.22*sqrt(0.75)) * sqrt(2 * pi)) * exp(-((log(x) - 2.77)^2) / (2 * (0.22*sqrt(0.75))^2))), n = 1000)
+
+##d-
+
+simpson_compuesto(limiteInferior = 12.68, limiteSuperior = 20.42, funcion = expression(max(1 / (x * (0.22*sqrt(0.75)) * sqrt(2 * pi)) * exp(-((log(x) - 2.77)^2) / (2 * (0.22*sqrt(0.75))^2)) - 40, 0)), n = 1000)
