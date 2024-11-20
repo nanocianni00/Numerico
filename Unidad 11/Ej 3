@@ -1,0 +1,22 @@
+Cinco_puntos = function(x, fx){
+  n = length(x)
+  
+  fprima = rep(NA, times = n)
+  
+  h = x[2] - x[1]
+  
+  #Punto extremo
+  fprima[1] = (1/(12*h))*(-25*fx[1]+48*fx[2]-36*fx[3]+16*fx[4]-3*fx[5])
+  fprima[n] = (1/(12*(-h)))*(-25*fx[n]+48*fx[n-1]-36*fx[n-2]+16*fx[n-3]-3*fx[n-4])
+  
+  #Punto medio
+  for (i in 3:(n-2)) {
+    fprima[i] = (1/(12*h))*(fx[i-2]-8*fx[i-1]+8*fx[i+1]-fx[i+2])
+  }
+  
+  tabla = data.frame(x, fx, fprima)
+  
+  return(tabla)
+}
+
+print(Cinco_puntos(x = c(0.2, 0.4, 0.6, 0.8, 1), fx = c(0.9798652, 0.9177710, 0.8080348, 0.6386093, 0.3843735)))
