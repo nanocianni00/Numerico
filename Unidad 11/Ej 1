@@ -31,4 +31,11 @@ DerivadaPorDefinicion = function(x, fx){
   return(resultado)
 }
 
+## a-
+
 DerivadaPorDefinicion(x = c(0.5, 0.6, 0.7), fx = c(0.4794, 0.5646, 0.6442))
+
+## b-
+
+DerivadaPorDefinicion(x = c(0.0, 0.2, 0.4), fx = c(0, 0.74140, 1.3718))
+
