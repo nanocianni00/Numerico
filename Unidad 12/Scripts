@@ -1,4 +1,12 @@
-```{r Newton-Cortes Cerradas}
+#### Newton-Cortes Cerradas
+
+# n = 1. Regla del trapecio.
+# n = 2. Regla de Simpson.
+# n = 3. Regla de tres octavos de Simpson.
+# n = 4 regla de NC cerrada con n = 4.
+# Poner la funcion con "x" como incognita
+
+
 newtonCotesCerradas <- function(limiteInferior, limiteSuperior, funcion, n){
   h <- (limiteSuperior - limiteInferior)/n
   
@@ -23,7 +31,7 @@ newtonCotesCerradas <- function(limiteInferior, limiteSuperior, funcion, n){
 }
 ```
 
-```{r Newton-Cortes abiertas}
+#### Newton-Cortes abiertas
 newtonCotesAbiertas <- function(limiteInferior, limiteSuperior, funcion, n){
   h <- (limiteSuperior - limiteInferior)/(n+2)
   
@@ -48,7 +56,7 @@ newtonCotesAbiertas <- function(limiteInferior, limiteSuperior, funcion, n){
 }
 ```
 
-```{r punto medio compuesta}
+#### punto medio compuesta
 PuntoMedioCompuesta <- function(limiteInferior, limiteSuperior, funcion, n){
  h <- (limiteSuperior - limiteInferior)/(n + 2)
  
@@ -66,7 +74,7 @@ PuntoMedioCompuesta <- function(limiteInferior, limiteSuperior, funcion, n){
 } 
 ```
 
-```{r Regla compuesta de simpson y trapecio}
+#### Regla compuesta de simpson y trapecio
 IntegracionCompuesta <- function(limiteInferior, limiteSuperior, funcion, n, cantIntervalos){
   
   #browser()
