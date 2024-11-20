@@ -1,0 +1,38 @@
+newtonCotesCerradas <- function(limiteInferior, limiteSuperior, funcion, n){
+  h <- (limiteSuperior - limiteInferior)/n
+  
+  fx <- rep(NA, times = (n+1))
+  for (i in 1:(n+1)) {
+    fx[i] <- eval(funcion, list(x = limiteInferior + (i-1)*h))
+  }
+  
+  if (n == 1){
+    return((h/2) * (fx[1] + fx[2]))
+  }
+  else if (n == 2){
+    return((h/3) * (fx[1] + 4*fx[2] + fx[3]))
+  }
+  else if(n == 3){
+    return((3/8)*h*(fx[1] + 3*fx[2] + 3*fx[3] + fx[4]))
+  }
+  else if(n == 4){
+    return((2/45) * h * ( 7 * fx[1] + 32 * fx[2] + 12 * fx[3] + 32 * fx[4] + 7 * fx[5]))
+  }
+  
+}
+
+##a- 
+
+newtonCotesCerradas(limiteInferior = 0, limiteSuperior = 0.5, funcion = expression(2/(x-4)), n = 1)
+
+##d-
+
+newtonCotesCerradas(limiteInferior = 0, limiteSuperior = pi/4, funcion = expression(exp(3*x)*sin(2*x)), n = 2)
+
+##f-
+
+newtonCotesCerradas(limiteInferior = 1, limiteSuperior = 1.6, funcion = expression((2*x)/(x^2-4)), n = 3)
+
+##g-
+
+newtonCotesCerradas(limiteInferior = 1, limiteSuperior = 1.5, funcion = expression(x^2*log(x)), n = 4)
