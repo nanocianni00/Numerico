@@ -1,4 +1,4 @@
-DerivadaPorDefinicion <- function(x, fx){
+DerivadaPorDefinicion = function(x, fx){
   fprima = rep(NA, times = length(x))
   
   #Se asume que todos los valores estan separados por un h constante
