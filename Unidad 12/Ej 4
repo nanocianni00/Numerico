@@ -7,4 +7,4 @@ PuntoMedioCompuesta(limiteInferior = 0, limiteSuperior = 1000, funcion = express
 ##b- 
 
 gamma = IntegracionCompuesta(limiteInferior = 0, limiteSuperior = 1000, funcion = expression(x^(9.23-1)*exp(-x)), cantIntervalos = 100000, n = 1)
-IntegracionCompuesta(limiteInferior = 0, limiteSuperior = 1000, funcion = expression(0.43*exp(-0.43*x)*((0.43*x)^(9.23-1)/gamma), cantIntervalos = 100000, n = 1)
+IntegracionCompuesta(limiteInferior = 0, limiteSuperior = 1000, funcion = expression(0.43*exp(-0.43*x)*(((0.43*x)^(9.23-1))/gamma)), cantIntervalos = 100000, n = 1)
