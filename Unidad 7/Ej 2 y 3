@@ -11,6 +11,8 @@ tabla_dd[j, i] = (tabla_dd[j + 1, i - 1] - tabla_dd[j, i - 1])/(x[j + i - 1] - x
 return (tabla_dd)
 }
 
+tabla_dd = diferencias_divididas(x, y)
+
 polinomio_newton = function(x, tabla_dd) {
 n = length(x)
 result = as.character(tabla_dd[1, 1])
@@ -24,5 +26,4 @@ result = paste0(result, term)
 }
 return (result)
 }
-tabla_dd = diferencias_divididas(x, y)
 
