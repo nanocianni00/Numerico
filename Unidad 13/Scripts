@@ -1,0 +1,20 @@
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(quantmod)
+library(dplyr)
+set.seed(123)
+
+integracion <- function(funcion, limiteSuperior, limiteInferior, n){
+  uniforme <- limiteInferior + (limiteSuperior - limiteInferior) * runif(n = n)
+  
+  alturaPromedio <- 1/n * sum(funcion(uniforme))
+  
+  anchoBase <- limiteSuperior - limiteInferior
+  
+  desvioEstandar <- sqrt( 1/(n-1) * sum((funcion(uniforme) * (limiteSuperior - limiteInferior) - alturaPromedio * anchoBase)^2) )
+  
+  error <- desvioEstandar/sqrt(n)
+  
+  resultados <- list("error" = error, "alfa" =  alturaPromedio * anchoBase)
+  return(resultados)
+}
