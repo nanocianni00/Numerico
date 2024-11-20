@@ -20,4 +20,13 @@ IntegracionCompuesta(limiteInferior = 0, limiteSuperior = 1000, funcion = expres
 
 ##4.2-a-
 
+IntegracionCompuesta(limiteInferior = -1000, limiteSuperior = 1000, funcion = expression((1/(18*sqrt(2*pi)))*exp((-0.5)*((((x - 24)/18))^2))), cantIntervalos = 100000, n = 1)
 
+##b- 
+
+IntegracionCompuesta(limiteInferior = -1000, limiteSuperior = 1000, funcion = expression(x*(1/(18*sqrt(2*pi)))*exp((-0.5)*((((x - 24)/18))^2))), cantIntervalos = 100000, n = 1)
+
+##c- 
+
+esperanza = IntegracionCompuesta(limiteInferior = -1000, limiteSuperior = 1000, funcion = expression(x*(1/(18*sqrt(2*pi)))*exp((-0.5)*((((x - 24)/18))^2))), cantIntervalos = 100000, n = 1)
+IntegracionCompuesta(limiteInferior = -1000, limiteSuperior = 1000, funcion = expression(((x - esperanza)^2)*(1/(18*sqrt(2*pi)))*exp((-0.5)*((((x - 24)/18))^2))), cantIntervalos = 100000, n = 1)
