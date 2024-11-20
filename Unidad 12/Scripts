@@ -29,9 +29,17 @@ newtonCotesCerradas <- function(limiteInferior, limiteSuperior, funcion, n){
   }
   
 }
-```
+
 
 #### Newton-Cortes abiertas
+
+# n = 0. Regla del punto medio.
+# n = 1. 
+# n = 2. 
+# n = 3. 
+# Poner la funcion con "x" como incognita
+
+
 newtonCotesAbiertas <- function(limiteInferior, limiteSuperior, funcion, n){
   h <- (limiteSuperior - limiteInferior)/(n+2)
   
@@ -54,7 +62,7 @@ newtonCotesAbiertas <- function(limiteInferior, limiteSuperior, funcion, n){
   }
   
 }
-```
+
 
 #### punto medio compuesta
 PuntoMedioCompuesta <- function(limiteInferior, limiteSuperior, funcion, n){
@@ -72,7 +80,7 @@ PuntoMedioCompuesta <- function(limiteInferior, limiteSuperior, funcion, n){
  }
  return(2 * h * suma)
 } 
-```
+
 
 #### Regla compuesta de simpson y trapecio
 IntegracionCompuesta <- function(limiteInferior, limiteSuperior, funcion, n, cantIntervalos){
