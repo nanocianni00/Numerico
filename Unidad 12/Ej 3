@@ -66,3 +66,21 @@ IntegracionCompuesta <- function(limiteInferior, limiteSuperior, funcion, n, can
 IntegracionCompuesta(limiteInferior = 1, limiteSuperior = 2, funcion = expression(x*log(x)), cantIntervalos = 4, n = 1)
 IntegracionCompuesta(limiteInferior = 1, limiteSuperior = 2, funcion = expression(x*log(x)), cantIntervalos = 4, n = 2)
 PuntoMedioCompuesta(limiteInferior = 1, limiteSuperior = 2, funcion = expression(x*log(x)), n = 4)
+
+##d-
+
+IntegracionCompuesta(limiteInferior = 0, limiteSuperior = pi, funcion = expression((x^2)*cos(x)), cantIntervalos = 6, n = 1)
+IntegracionCompuesta(limiteInferior = 0, limiteSuperior = pi, funcion = expression((x^2)*cos(x)), cantIntervalos = 6, n = 2)
+PuntoMedioCompuesta(limiteInferior = 0, limiteSuperior = pi, funcion = expression((x^2)*cos(x)), n = 6)
+
+##g-
+
+IntegracionCompuesta(limiteInferior = 3, limiteSuperior = 5, funcion = expression(1/sqrt((x^2)-4)), cantIntervalos = 8, n = 1)
+IntegracionCompuesta(limiteInferior = 3, limiteSuperior = 5, funcion = expression(1/sqrt((x^2)-4)), cantIntervalos = 8, n = 2)
+PuntoMedioCompuesta(limiteInferior = 3, limiteSuperior = 5, funcion = expression(1/sqrt((x^2)-4)), n = 8)
+
+##h-
+
+IntegracionCompuesta(limiteInferior = 0, limiteSuperior = 3*pi/8, funcion = expression(tan(x)), cantIntervalos = 8, n = 1)
+IntegracionCompuesta(limiteInferior = 0, limiteSuperior = 3*pi/8, funcion = expression(tan(x)), cantIntervalos = 8, n = 2)
+PuntoMedioCompuesta(limiteInferior = 0, limiteSuperior = 3*pi/8, funcion = expression(tan(x)), n = 8)
