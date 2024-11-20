@@ -1,0 +1,68 @@
+##a-
+
+dif_prog = function(x, fx){
+  fprima = rep(NA, times = length(x))
+  
+  #Se asume que todos los valores estan separados por un h constante
+  h = x[2] - x[1]
+  
+  for (i in 1:(length(x)-1)){
+    fprima[i] = (fx[i+1] - fx[i]) / h
+  }
+resultado = data.frame(x, fx, fprima)
+
+return(resultado)
+}
+
+dif_prog(x = c(6.41, 6.76, 7.11, 7.46, 7.81, 8.16, 8.51), fx = c(4.0951, 5.1989, 6.1303, 6.7893, 7.1079, 7.0591, 6.6598))
+
+## b-
+
+dif_reg = function(x, fx){
+  fprima = rep(NA, times = length(x))
+h = x[2] - x[1]
+for (i in (length(x):2)) {
+    fprima[i] = (fx[i-1] - fx[i]) / (-h)
+}
+resultado = data.frame(x, fx, fprima)
+
+return(resultado)
+}
+
+dif_reg(x = c(6.41, 6.76, 7.11, 7.46, 7.81, 8.16, 8.51), fx = c(4.0951, 5.1989, 6.1303, 6.7893, 7.1079, 7.0591, 6.6598))
+
+##c-
+
+tres_puntos_pto_medio = function(x, fx){
+  n = length(x)
+  
+  fprima = rep(NA, times = n)
+  
+  h = x[2] - x[1]
+for (i in 2:(n-1)) {
+    fprima[i] = (1/(2*h))*(-fx[i-1]+fx[i+1])
+  }
+  
+  tabla = data.frame(x, fx, fprima)
+  
+  return(tabla)
+}
+
+tres_puntos_pto_medio(x = c(6.41, 6.76, 7.11, 7.46, 7.81, 8.16, 8.51), fx = c(4.0951, 5.1989, 6.1303, 6.7893, 7.1079, 7.0591, 6.6598))
+
+##d-
+
+cinco_puntos_extremo = function(x, fx){
+  n = length(x)
+  
+  fprima = rep(NA, times = n)
+  
+  h = x[2] - x[1]
+fprima[1] = (1/(12*h))*(-25*fx[1]+48*fx[2]-36*fx[3]+16*fx[4]-3*fx[5])
+fprima[n] = (1/(12*(-h)))*(-25*fx[n]+48*fx[n-1]-36*fx[n-2]+16*fx[n-3]-3*fx[n-4])
+tabla = data.frame(x, fx, fprima)
+  
+  return(tabla)
+}
+
+cinco_puntos_extremo(x = c(6.41, 6.76, 7.11, 7.46, 7.81, 8.16, 8.51), fx = c(4.0951, 5.1989, 6.1303, 6.7893, 7.1079, 7.0591, 6.6598))
