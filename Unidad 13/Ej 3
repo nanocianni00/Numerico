@@ -1,0 +1,20 @@
+media = c(0.15, 0.12)
+desvio = c(0.2, 0.19)
+
+p0 <- rep(NA, times = 2)
+
+getSymbols("YPFD.BA", auto.assign = TRUE, src = "yahoo")
+
+aux <- data.frame(YPFD.BA)
+rm(YPFD.BA)
+
+p0[1] <- aux['2020-11-06',]$YPFD.BA.Adjusted
+rm(aux)
+
+getSymbols("MELI.BA", auto.assign = TRUE, src = "yahoo")
+
+aux <- data.frame(MELI.BA)
+rm(MELI.BA)
+
+p0[2] <- aux['2020-11-06',]$MELI.BA.Adjusted
+rm(aux)
