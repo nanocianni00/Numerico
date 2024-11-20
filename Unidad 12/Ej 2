@@ -1,5 +1,3 @@
-##a-
-
 newtonCotesAbiertas <- function(limiteInferior, limiteSuperior, funcion, n){
   h <- (limiteSuperior - limiteInferior)/(n+2)
   
@@ -23,7 +21,30 @@ newtonCotesAbiertas <- function(limiteInferior, limiteSuperior, funcion, n){
   
 }
 
+##a-
+
 newtonCotesAbiertas(limiteInferior = 0, limiteSuperior = 0.1, funcion = expression(sqrt(x+1)), n = 0)
 newtonCotesAbiertas(limiteInferior = 0, limiteSuperior = 0.1, funcion = expression(sqrt(x+1)), n = 1)
 newtonCotesAbiertas(limiteInferior = 0, limiteSuperior = 0.1, funcion = expression(sqrt(x+1)), n = 2)
 newtonCotesAbiertas(limiteInferior = 0, limiteSuperior = 0.1, funcion = expression(sqrt(x+1)), n = 3)
+
+##c-
+
+newtonCotesAbiertas(limiteInferior = 1.1, limiteSuperior = 1.5, funcion = expression(exp(x)), n = 0)
+newtonCotesAbiertas(limiteInferior = 1.1, limiteSuperior = 1.5, funcion = expression(exp(x)), n = 1)
+newtonCotesAbiertas(limiteInferior = 1.1, limiteSuperior = 1.5, funcion = expression(exp(x)), n = 2)
+newtonCotesAbiertas(limiteInferior = 1.1, limiteSuperior = 1.5, funcion = expression(exp(x)), n = 3)
+
+##e-
+
+newtonCotesAbiertas(limiteInferior = 1, limiteSuperior = 5.5, funcion = expression(1/x), n = 0) + newtonCotesAbiertas(limiteInferior = 5.5, limiteSuperior = 10, funcion = expression(1/x), n = 0)
+newtonCotesAbiertas(limiteInferior = 1, limiteSuperior = 5.5, funcion = expression(1/x), n = 1) + newtonCotesAbiertas(limiteInferior = 5.5, limiteSuperior = 10, funcion = expression(1/x), n = 1)
+newtonCotesAbiertas(limiteInferior = 1, limiteSuperior = 5.5, funcion = expression(1/x), n = 2) + newtonCotesAbiertas(limiteInferior = 5.5, limiteSuperior = 10, funcion = expression(1/x), n = 2)
+newtonCotesAbiertas(limiteInferior = 1, limiteSuperior = 5.5, funcion = expression(1/x), n = 3) + newtonCotesAbiertas(limiteInferior = 5.5, limiteSuperior = 10, funcion = expression(1/x), n = 3)
+
+##f- 
+
+newtonCotesAbiertas(limiteInferior = 0, limiteSuperior = 1, funcion = expression(x^(1/3)), n = 0)
+newtonCotesAbiertas(limiteInferior = 0, limiteSuperior = 1, funcion = expression(x^(1/3)), n = 1)
+newtonCotesAbiertas(limiteInferior = 0, limiteSuperior = 1, funcion = expression(x^(1/3)), n = 2)
+newtonCotesAbiertas(limiteInferior = 0, limiteSuperior = 1, funcion = expression(x^(1/3)), n = 3)
