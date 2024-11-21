@@ -58,3 +58,46 @@ return(n)
 
 n_simpson(0.5, 2.5, 3.556, 0.001)
 
+IntegracionCompuesta <- function(limiteInferior, limiteSuperior, funcion, n, cantIntervalos){
+  
+  if ((n == 2 || n == 0) && cantIntervalos%%2 != 0){
+    return("cantIntervalos debe ser un entero par")
+  }
+  
+  cantIntervalos <- cantIntervalos/n
+  
+  
+  crecimientoIntervalo <- (limiteSuperior-limiteInferior)/cantIntervalos
+  
+  fx <- rep(NA, times = (n+1))
+  
+  resultado <- 0
+  
+  for (i in 1:cantIntervalos) {
+    limiteSuperior <- limiteInferior + crecimientoIntervalo
+    
+    if (n != 0){
+      h <- (limiteSuperior - limiteInferior)/n
+    }
+    
+    
+    for (i in 1:(n+1)) {
+      fx[i] <- eval(funcion, list(x = limiteInferior + (i-1)*h))
+    }
+    
+    # Trapecio
+    if (n == 1){
+      resultado <- resultado + (h/2) * (fx[1] + fx[2])
+    }
+    #Simpson
+    else if(n == 2){
+      resultado <- resultado + (h/3) * (fx[1] + 4*fx[2] + fx[3])
+    }
+    
+    limiteInferior <- limiteSuperior
+  }
+  
+  return(resultado)
+}
+
+IntegracionCompuesta(limiteInferior = -100, limiteSuperior = 100, 
