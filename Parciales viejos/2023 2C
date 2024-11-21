@@ -56,6 +56,30 @@ IntegracionCompuestaDiscreta(x = seq(0, 2, by = 0.25), y = c(0.75, 0.8, 0.857, 0
 
 ##b-
 
+PolinomioLagrange <- function(x, fx) {
+  
+  n <- length(x)  # Número de puntos
+  l <- rep("", times = n)  # Vector para almacenar los polinomios de Lagrange
+  resultado <- ""  # Iniciamos el resultado vacío
+  
+  # Calculamos cada uno de los polinomios de Lagrange L_i(x)
+  for (i in 1:n) {
+    l[i] <- "1"  # Inicializamos cada L_i(x) con 1
+    for (j in 1:n) {
+      if (j != i) {
+        l[i] <- paste0(l[i], "* (x - ", x[j], ") / (", x[i], " - ", x[j], ")")
+      }
+    }
+  }
+  
+  # Sumamos los términos, multiplicando por f(x_i)
+  for (i in 1:n) {
+    resultado <- paste0(resultado, " + ", fx[i], "*", l[i])
+  }
+  
+  return(paste("El polinomio de Lagrange es: ", resultado))
+}
+
 Lagrange = function(x_i, f_i, x) {
 n = length(x_i)
 aux.1 = rep(NA, n)
@@ -75,8 +99,12 @@ x_1 = seq(1, 2, by = 0.25)
 f_1 = c(0.515, 0.56, 0.615, 0.682, 0.765)
 x1 = 1.9
 
+PolinomioLagrange(x_1, f_1)
 Lagrange(x_1,f_1,x1)
 
-x1 = 2.1
+x2 = 2.1
 
-Lagrange(x_1,f_1,x1)
+Lagrange(x_1,f_1,x2)
+
+##2-a-
+
