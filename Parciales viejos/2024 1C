@@ -130,3 +130,69 @@ print(esperanza)
 
 ##3-a-
 
+set.seed(123)
+P0 <- 100            # Precio inicial
+mu <- 0.08           # Tasa de rendimiento esperada
+sigma <- 0           # Volatilidad
+T <- 1               # Tiempo en años
+pasos <- 360         # Número de pasos (360 días)
+n_sim <- 1000        # Número de simulaciones
+
+Pt <- matrix(0, nrow = n_sim, ncol = pasos + 1)
+Pt[, 1] <- P0
+dt <- T / pasos
+
+for (i in 1:n_sim) { # cuenta el numero de simulacion
+  for (j in 2:(pasos + 1)) {
+    Pt[i, j] <- Pt[i, j - 1] * exp((mu - 0.5 * sigma^2) * dt + sigma * sqrt(dt) * rnorm(1)) # rnorm(1) genera un numero aleatorio (es el epsilon de la formula)
+  }
+}
+mean(Pt[,360])
+
+
+vec<-rep(0:pasos,n_sim)
+matr<-matrix(vec,nrow= n_sim, ncol=pasos+1,byrow=TRUE)
+
+plot(matr[1,],Pt[1,],type="l", ylim=c(min(Pt),max(Pt)))
+for(i in 2:n_sim){
+  lines(matr[i,],Pt[i,], col=trunc(runif(1)*n_sim))
+}
+
+matrizdemedias<-matrix(NA,nrow=1,ncol=pasos+1)
+for(i in 2:pasos+1){
+  matrizdemedias[1,i]<-mean(Pt[,i])
+}
+
+lines(matr[1,],matrizdemedias[1,], col="black",lwd = 5)
+
+##b-
+
+precios_finales = Pt[pasos + 1, ]
+
+probabilidad = mean(precios_finales < 100)
+print(probabilidad)
+
+##c-
+
+set.seed(123)
+P0 <- 100            # Precio inicial
+mu <- 0           # Tasa de rendimiento esperada
+sigma <- 1          # Volatilidad
+T <- 1               # Tiempo en años
+pasos <- 360         # Número de pasos (360 días)
+n_sim <- 1000        # Número de simulaciones
+
+Pt <- matrix(0, nrow = n_sim, ncol = pasos + 1)
+Pt[, 1] <- P0
+dt <- T / pasos
+
+for (i in 1:n_sim) { # cuenta el numero de simulacion
+  for (j in 2:(pasos + 1)) {
+    Pt[i, j] <- Pt[i, j - 1] * exp((mu - 0.5 * sigma^2) * dt + sigma * sqrt(dt) * rnorm(1)) # rnorm(1) genera un numero aleatorio (es el epsilon de la formula)
+  }
+}
+
+precios_finales = Pt[, pasos + 1]
+
+probabilidad = mean(precios_finales < 100)
+print(probabilidad)
