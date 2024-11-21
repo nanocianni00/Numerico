@@ -58,46 +58,75 @@ return(n)
 
 n_simpson(0.5, 2.5, 3.556, 0.001)
 
-IntegracionCompuesta <- function(limiteInferior, limiteSuperior, funcion, n, cantIntervalos){
-  
-  if ((n == 2 || n == 0) && cantIntervalos%%2 != 0){
-    return("cantIntervalos debe ser un entero par")
+IntegracionCompuestaDiscreta <- function(x, y, n, cantIntervalos) {
+  # Verificar que los vectores x e y tengan la misma longitud
+  if (length(x) != length(y)) {
+    stop("Los vectores x e y deben tener la misma longitud.")
   }
   
-  cantIntervalos <- cantIntervalos/n
+  # Asegurarse de que la cantidad de intervalos sea menor o igual al total de intervalos disponibles
+  if (cantIntervalos > length(x) - 1) {
+    stop("La cantidad de intervalos es mayor que el número de puntos disponibles.")
+  }
   
+  # Determinar el paso para reducir los puntos según la cantidad de intervalos deseada
+  step <- floor((length(x) - 1) / cantIntervalos)
   
-  crecimientoIntervalo <- (limiteSuperior-limiteInferior)/cantIntervalos
+  # Seleccionar los puntos y valores correspondientes a los intervalos deseados
+  x <- x[seq(1, length(x), by = step)]
+  y <- y[seq(1, length(y), by = step)]
   
-  fx <- rep(NA, times = (n+1))
+  # Recalcular el número de intervalos y el tamaño de paso h
+  cantIntervalos <- length(x) - 1
+  h <- (x[length(x)] - x[1]) / cantIntervalos
   
+  # Verificar si n es adecuado para el número de intervalos
+  if (n == 2 && cantIntervalos %% 2 != 0) {
+    stop("El número de intervalos debe ser par para el método de Simpson.")
+  }
+  
+  # Inicializar el resultado
   resultado <- 0
   
-  for (i in 1:cantIntervalos) {
-    limiteSuperior <- limiteInferior + crecimientoIntervalo
-    
-    if (n != 0){
-      h <- (limiteSuperior - limiteInferior)/n
-    }
-    
-    
-    for (i in 1:(n+1)) {
-      fx[i] <- eval(funcion, list(x = limiteInferior + (i-1)*h))
-    }
-    
-    # Trapecio
-    if (n == 1){
-      resultado <- resultado + (h/2) * (fx[1] + fx[2])
-    }
-    #Simpson
-    else if(n == 2){
-      resultado <- resultado + (h/3) * (fx[1] + 4*fx[2] + fx[3])
-    }
-    
-    limiteInferior <- limiteSuperior
+  # Aplicar la fórmula compuesta según el método
+  if (n == 1) {
+    # Método del trapecio compuesto
+    resultado <- (h / 2) * (y[1] + 2 * sum(y[2:cantIntervalos]) + y[length(y)])
+  } else if (n == 2) {
+    # Método de Simpson compuesto
+    resultado <- (h / 3) * (y[1] + 4 * sum(y[seq(2, cantIntervalos, by = 2)]) + 2 * sum(y[seq(3, cantIntervalos - 1, by = 2)]) + y[length(y)])
   }
   
   return(resultado)
 }
 
-IntegracionCompuesta(limiteInferior = -100, limiteSuperior = 100, 
+IntegracionCompuestaDiscreta(x = seq(0.5, 2.5, by = 0.25), y = c(0.857, 0.923, 1, 1.091, 1.2, 1.333, 1.5, 1.714, 2), n = 2, cantIntervalos = 6)
+
+##2- a-
+
+simpson_compuesto <- function(limiteInferior, limiteSuperior, funcion, n) {
+  h <- (limiteSuperior - limiteInferior) / n
+  suma <- 0
+  for (i in 1:(n/2)) {
+    xi <- limiteInferior + (2*i - 2)*h
+    xi_1 <- limiteInferior + (2*i - 1)*h
+    xi_2 <- limiteInferior + 2*i*h
+    
+    fx0 <- eval(funcion, list(x = xi))
+    fx1 <- eval(funcion, list(x = xi_1))
+    fx2 <- eval(funcion, list(x = xi_2))
+    
+    suma <- suma + (h / 3) * (fx0 + 4 * fx1 + fx2)
+  }
+  return(suma)
+}
+
+simpson_compuesto(limiteInferior = -100, limiteSuperior = 0, funcion = expression(1/(sqrt(2 * pi)) * exp(- (x^2)/2)), n = 1000) #Pongo limite superior 0 en vez de 100 porque me pide probabilidad de que x<0
+
+##b- 
+
+esperanza = simpson_compuesto(limiteInferior = -100, limiteSuperior = 100, funcion = expression(x * (1/(sqrt(2 * pi)) * exp(- (x^2)/2))), n = 1000) #Integral de x * f(x) es la forma de calcular la esperanza
+print(esperanza)
+
+##3-a-
+
