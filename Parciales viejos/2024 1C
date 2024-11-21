@@ -1,2 +1,60 @@
 ##1-a-
 
+diferencias_divididas = function(x, y) {
+n = length(x)
+column = c("x",paste("a", 0:(n-1),sep = ""))
+tabla_dd = matrix(0, n, n)
+tabla_dd[,1] = y
+for (i in 2:n) { #Columnas
+for (j in 1:(n - i + 1)) { #Filas
+tabla_dd[j, i] = (tabla_dd[j + 1, i - 1] - tabla_dd[j, i - 1])/(x[j + i - 1] - x[j])
+}
+}
+return (tabla_dd)
+}
+
+
+polinomio_newton = function(x, tabla_dd) {
+n = length(x)
+result = as.character(tabla_dd[1, 1])
+for (j in 2:n) {
+coef = tabla_dd[1, j]
+term = paste0("+", coef)
+for (k in 1:(j - 1)) {
+term = paste0(term, "*(x - ", x[k], ")")
+}
+result = paste0(result, term)
+}
+return (result)
+}
+
+valor_polinomio = function(x, tabla_dd, x_eval){
+n <- length(x)
+result <- tabla_dd[1, 1]
+prod <- 1
+  
+for (j in 2:n) {
+prod <- prod * (x_eval - x[j - 1])
+result <- result + tabla_dd[1, j] * prod
+}
+return(result)
+}
+
+tabla_dd = diferencias_divididas(x = c(1.5, 1.75, 2, 2.25, 2.5), y = c(0.615, 0.682, 0.765, 0.872, 1.015))
+polinomio_newton(x = c(1.5, 1.75, 2, 2.25, 2.5), tabla_dd)
+valor_polinomio(x = c(1.5, 1.75, 2, 2.25, 2.5), tabla_dd, 2.1)
+valor_polinomio(x = c(1.5, 1.75, 2, 2.25, 2.5), tabla_dd, 2.25)
+valor_polinomio(x = c(1.5, 1.75, 2, 2.25, 2.5), tabla_dd, 2.6)
+
+##b- 
+
+n_simpson = function(a, b, max_f4, error) {
+n <- ceiling(((b - a)^5 * max_f4 / (180 * error))^(1/4))
+if (n %% 2 != 0) {
+n <- n + 1  # Asegurarse de que n es par
+}
+return(n)
+}
+
+n_simpson(0.5, 2.5, 3.556, 0.001)
+
