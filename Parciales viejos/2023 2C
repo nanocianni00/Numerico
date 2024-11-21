@@ -10,3 +10,49 @@ return(n)
 
 n_simpson(0, 2, 1.125, 0.001)
 
+IntegracionCompuestaDiscreta <- function(x, y, n, cantIntervalos) {
+  # Verificar que los vectores x e y tengan la misma longitud
+  if (length(x) != length(y)) {
+    stop("Los vectores x e y deben tener la misma longitud.")
+  }
+  
+  # Asegurarse de que la cantidad de intervalos sea menor o igual al total de intervalos disponibles
+  if (cantIntervalos > length(x) - 1) {
+    stop("La cantidad de intervalos es mayor que el número de puntos disponibles.")
+  }
+  
+  # Determinar el paso para reducir los puntos según la cantidad de intervalos deseada
+  step <- floor((length(x) - 1) / cantIntervalos)
+  
+  # Seleccionar los puntos y valores correspondientes a los intervalos deseados
+  x <- x[seq(1, length(x), by = step)]
+  y <- y[seq(1, length(y), by = step)]
+  
+  # Recalcular el número de intervalos y el tamaño de paso h
+  cantIntervalos <- length(x) - 1
+  h <- (x[length(x)] - x[1]) / cantIntervalos
+  
+  # Verificar si n es adecuado para el número de intervalos
+  if (n == 2 && cantIntervalos %% 2 != 0) {
+    stop("El número de intervalos debe ser par para el método de Simpson.")
+  }
+  
+  # Inicializar el resultado
+  resultado <- 0
+  
+  # Aplicar la fórmula compuesta según el método
+  if (n == 1) {
+    # Método del trapecio compuesto
+    resultado <- (h / 2) * (y[1] + 2 * sum(y[2:cantIntervalos]) + y[length(y)])
+  } else if (n == 2) {
+    # Método de Simpson compuesto
+    resultado <- (h / 3) * (y[1] + 4 * sum(y[seq(2, cantIntervalos, by = 2)]) + 2 * sum(y[seq(3, cantIntervalos - 1, by = 2)]) + y[length(y)])
+  }
+  
+  return(resultado)
+}
+
+IntegracionCompuestaDiscreta(x = seq(0, 2, by = 0.25), y = c(0.75, 0.8, 0.857, 0.923, 1, 1.091, 1.2, 1.333, 1.5), n = 2, cantIntervalos = 4)
+
+##b-
+
