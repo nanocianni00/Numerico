@@ -56,3 +56,27 @@ IntegracionCompuestaDiscreta(x = seq(0, 2, by = 0.25), y = c(0.75, 0.8, 0.857, 0
 
 ##b-
 
+Lagrange = function(x_i, f_i, x) {
+n = length(x_i)
+aux.1 = rep(NA, n)
+aux.2 = rep(NA, n)
+for(i in 1:n) {
+resta = x - x_i[-i]
+aux.1[i] = prod(resta)
+resta.2 = x_i[i]-x_i[-i]
+aux.2[i] = prod(resta.2)
+}
+L = aux.1/aux.2
+rdo_interpolacion = sum(L * f_i)
+return(rdo_interpolacion)
+}
+
+x_1 = seq(1, 2, by = 0.25)
+f_1 = c(0.515, 0.56, 0.615, 0.682, 0.765)
+x1 = 1.9
+
+Lagrange(x_1,f_1,x1)
+
+x1 = 2.1
+
+Lagrange(x_1,f_1,x1)
