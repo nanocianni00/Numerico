@@ -1,2 +1,12 @@
 ##1-a-
 
+n_simpson = function(a, b, max_f4, error) {
+n <- ceiling(((b - a)^5 * max_f4 / (180 * error))^(1/4))
+if (n %% 2 != 0) {
+n <- n + 1  # Asegurarse de que n es par
+}
+return(n)
+}
+
+n_simpson(0, 2, 1.125, 0.001)
+
