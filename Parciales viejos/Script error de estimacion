@@ -1,0 +1,25 @@
+EstimarErrorIntegracion <- function(limiteInferior, limiteSuperior, n, derivadaMax, metodo) {
+  # `limiteInferior`: límite inferior de integración.
+  # `limiteSuperior`: límite superior de integración.
+  # `n`: número de subintervalos.
+  # `derivadaMax`: el valor máximo conocido de la derivada requerida para la fórmula del error.
+  # `metodo`: el método de integración ("simpson", "trapecio", "punto_medio").
+  
+  h <- (limiteSuperior - limiteInferior) / n  # Tamaño del paso
+  
+  # Fórmulas de error según el método
+  if (metodo == "simpson") {
+    # Fórmula del error de Simpson
+    error <- (-(limiteSuperior - limiteInferior) * h^4 / 180) * derivadamax
+  } else if (metodo == "trapecio") {
+    # Fórmula del error del trapecio
+    error <- -((limiteSuperior - limiteInferior) * h^2 / 12) * derivadamax
+  } else if (metodo == "punto_medio") {
+    # Fórmula del error del punto medio
+    error <- -((limiteSuperior - limiteInferior) * h^2 / 24) * derivadamax
+  } else {
+    stop("Método no reconocido. Usa 'simpson', 'trapecio' o 'punto_medio'.")
+  }
+  
+  return(abs(error))  # Devolvemos el error absoluto
+}
