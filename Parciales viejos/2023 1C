@@ -162,4 +162,25 @@ theme(plot.title = element_text(hjust = 0.5))
 
 ##2-
 
+SegundaDerivada = function (x, fx){
+  n = length(x)
+  
+  fprima = rep(NA, times = n)
+  
+   h = x[2] - x[1]
+  
+  #Punto medio
+  for (i in 2:(n-1)) {
+    fprima[i] <- (1/(h^2))*(fx[i-1]-2*fx[i]+fx[i+1])
+  }
+  
+  tabla = data.frame(x, fx, fprima)
+  
+  return(tabla)
+  
+}
+SegundaDerivada(x = c(1, 1.2, 1.4, 1.6), fx = c(0.8, 2.099, 4.118, 7.133))
+
+##3-a-
+
 
