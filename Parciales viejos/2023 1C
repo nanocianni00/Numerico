@@ -137,8 +137,8 @@ spline1 <- function(x) {
 }
 
 # Define los puntos en los que quieres evaluar cada función
-newtonX <- c(2.5, 9, 17.5)
-spline1X <- c(2.5, 9, 17.5)
+newtonX <- c(9)
+spline1X <- c(2.5, 17.5)
 
 # Calcula los valores de Y para cada tramo
 newtonY <- newton(newtonX)
@@ -150,8 +150,7 @@ df_spline1 <- data.frame(spline1X, spline1Y)
 
 # Graficar utilizando ggplot2
 library(ggplot2)
-ggplot() +
-with(df_newton, geom_line(aes(newtonX, newtonY), colour = "darkblue", lwd = 1.2)) + 
+ggplot() + 
 with(df_spline1, geom_line(aes(spline1X, spline1Y), colour = "red", lwd = 1.2)) +
 geom_point(data = df_newton, aes(newtonX, newtonY), color = "green", size = 3) +
 geom_point(data = df_spline1, aes(spline1X, spline1Y), color = "blue", size = 3) +
@@ -160,3 +159,7 @@ geom_vline(xintercept = 0, color = "black") +
 labs(x = "x", y = "f(x)", title = "Comparación entre Polinomio de Newton y Trazador Cúbico Natural") +
 theme_minimal() +
 theme(plot.title = element_text(hjust = 0.5))
+
+##2-
+
+
