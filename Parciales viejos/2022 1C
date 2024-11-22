@@ -21,6 +21,35 @@ simpson_compuesto(limiteInferior = 0, limiteSuperior = 1000, funcion = expressio
 
 ##b-
 
+alpha = 9.22
+beta = 2
+
+trapecio_compuesto <- function(funcion, limiteInferior, limiteSuperior, n) {
+  h <- (limiteSuperior - limiteInferior) / n
+  s <- (funcion(limiteInferior) + funcion(limiteSuperior)) / 2
+  for (i in 1:(n-1)) {
+    xi <- limiteInferior + i * h
+    s <- s + funcion(xi)
+  }
+  return(h * s)
+}
+alpha = 9.22
+beta = 2
+densidad <- function(x, alpha, beta) {
+  (gamma(alpha + beta) / (gamma(alpha) * gamma(beta))) * x^(alpha - 1) * (1 - x)^(beta - 1)
+}
+
+trapecio_compuesto(funcion = function(x) densidad(x, alpha, beta), limiteInferior = 0, limiteSuperior = 0.6, n = 50)
+
+##c-
+
+densidad_g <- function(x, alpha, beta, K) {
+  pmax(x - K, 0) * densidad(x, alpha, beta)
+}
+
+E_g <- trapecio_compuesto(function(x) densidad_g(x, alpha, beta, K = 0.5), 0, 1, n = 50)
+print(E_g)
+
 ##2-a-
 
 set.seed(123)
@@ -57,3 +86,24 @@ print(probabilidad)
 
 ##3-b-
 
+Lagrange = function(x_i, f_i, x) {
+n = length(x_i)
+aux.1 = rep(NA, n)
+aux.2 = rep(NA, n)
+for(i in 1:n) {
+resta = x - x_i[-i]
+aux.1[i] = prod(resta)
+resta.2 = x_i[i]-x_i[-i]
+aux.2[i] = prod(resta.2)
+}
+L = aux.1/aux.2
+rdo_interpolacion = sum(L * f_i)
+return(rdo_interpolacion)
+}
+
+x_1 = c(15.2031, 19.66)
+f_1 = c( 0.9, 1)
+x1 = 18
+
+Lagrange(x_1,f_1,x1)
+#Cuanto mayor era el grado del polinomio, mejor era la probabilidad para L=14 pero peor para L=18 porque me daba negativa
