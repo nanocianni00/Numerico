@@ -32,3 +32,26 @@ Cinco_puntos_modificado(x = c(3.05, 3.86, 4.67, 5.075, 5.48, 5.885, 6.29, 7.1, 7
 
 ##c-
 
+
+
+##d-
+
+SegundaDerivada = function (x, fx){
+  n = length(x)
+  
+  fprima = rep(NA, times = n)
+  
+   h = x[2] - x[1]
+  
+  #Punto medio
+  for (i in 2:(n-1)) {
+    fprima[i] <- (1/(h^2))*(fx[i-1]-2*fx[i]+fx[i+1])
+  }
+  
+  tabla = data.frame(x, fx, fprima)
+  
+  return(tabla)
+  
+}
+
+SegundaDerivada(x = c(3.05, 3.86, 4.67, 5.075, 5.48, 5.885, 6.29, 7.1, 7.91), fx = c(0.3619, -3.048, -10.0123, -5.5379, -3.4302, -1.6538, 0.0272, 2.7344, 3.6877))
