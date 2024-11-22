@@ -223,4 +223,5 @@ simpson_compuesto <- function(limiteInferior, limiteSuperior, funcion, n) {
   return(suma)
 }
 
-simpson_compuesto(limiteInferior = -100, limiteSuperior = 0, funcion = expression(log(x)), n = 1000)
+simpson_compuesto(limiteInferior = 0.00000001, limiteSuperior = 1, funcion = expression(1/(x * sqrt(2*pi)) * exp(-(log(x)^2)/2)), n = 1000)
+# Ni hago la probabilidad de que sea menor a 0 porque no puede serlo si es log normal
