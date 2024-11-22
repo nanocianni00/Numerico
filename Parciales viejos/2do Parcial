@@ -1,0 +1,209 @@
+##1-a-
+
+diferencias_divididas = function(x, y) {
+n = length(x)
+column = c("x",paste("a", 0:(n-1),sep = ""))
+tabla_dd = matrix(0, n, n)
+tabla_dd[,1] = y
+for (i in 2:n) { #Columnas
+for (j in 1:(n - i + 1)) { #Filas
+tabla_dd[j, i] = (tabla_dd[j + 1, i - 1] - tabla_dd[j, i - 1])/(x[j + i - 1] - x[j])
+}
+}
+return (tabla_dd)
+}
+
+
+polinomio_newton = function(x, tabla_dd) {
+n = length(x)
+result = as.character(tabla_dd[1, 1])
+for (j in 2:n) {
+coef = tabla_dd[1, j]
+term = paste0("+", coef)
+for (k in 1:(j - 1)) {
+term = paste0(term, "*(x - ", x[k], ")")
+}
+result = paste0(result, term)
+}
+return (result)
+}
+
+valor_polinomio = function(x, tabla_dd, x_eval){
+n <- length(x)
+result <- tabla_dd[1, 1]
+prod <- 1
+  
+for (j in 2:n) {
+prod <- prod * (x_eval - x[j - 1])
+result <- result + tabla_dd[1, j] * prod
+}
+return(result)
+}
+
+tabla_dd = diferencias_divididas(x = c(2.5, 4.375, 6.25, 8.15, 10, 11.875, 13.75, 15.625, 17.5), y = c(0.0013, 0.0122, 0.0668, 0.2266, 0.50, 0.7734, 0.9332, 0.9878, 0.9987))
+polinomio_newton(x = c(2.5, 4.375, 6.25, 8.15, 10, 11.875, 13.75, 15.625, 17.5), tabla_dd)
+valor_polinomio(x = c(2.5, 4.375, 6.25, 8.15, 10, 11.875, 13.75, 15.625, 17.5), tabla_dd, 14)
+valor_polinomio(x = c(2.5, 4.375, 6.25, 8.15, 10, 11.875, 13.75, 15.625, 17.5), tabla_dd, 18)
+
+##b-
+
+# Con el polinomio de Lagrange podria llegar a tener un sobreajuste por la gran cantidad de puntos que tengo en el ejercicio
+
+##c-
+
+library (glue)
+
+TrazadorCubicoNatural = function(x,y){
+n = length(y)
+if (n < 2) {
+stop("Se necesitan al menos dos puntos para generar un spline.")
+}
+if (n == 2) {
+# Caso especial para dos puntos: el spline es una recta
+cat("Spline para dos puntos es una línea recta entre los puntos.\n\n")
+cat(glue("S1(x) = {y[1]} + ({y[2]} - {y[1]}) / ({x[2]} - {x[1]}) * (x - {x[1]})\n"))
+return()  # Termina la ejecución aquí si solo hay dos puntos
+}
+j = n - 1
+a = y
+b = c(rep(NA,n))
+c = c(rep(NA,n))
+d = c(rep(NA,n))
+A = c(rep(0,n))
+h = c(rep(0,n))
+l = c(rep(0,n))
+u = c(rep(0,n))
+z = c(rep(0,n))
+#Paso 1
+for (i in 1:j) {
+h[i] = x[i + 1] - x[i]
+}
+#Paso 2
+for (i in 2:j) {
+A[i] = (3 * (a[i + 1] - a[i])/(h[i])) - (3 * (a[i] - a[i - 1]) /h[i - 1])
+}
+#Paso 3
+l[1] = 1
+u[1] = 0
+z[1] = 0
+#Paso 4
+for (i in 2:j) {
+l[i] = 2 * (x[i + 1] - x[i - 1]) - h[i - 1] * u[i - 1]
+u[i] = h[i]/l[i]
+z[i] = (A[i] - h[i - 1] * z[i - 1])/l[i]
+}
+#Paso 5
+l[n] = 1
+z[n] = 0
+c[n] = 0
+#Paso 6
+for (i in seq(j, 1, by = -1)) {
+c[i] = z[i] - u[i] * c[i + 1]
+b[i] = (a[i + 1] - a[i])/h[i] - h[i] * (c[i + 1] + 2*c[i])/3
+d[i] = (c[i + 1] - c[i])/(3*h[i])
+}
+#Paso 7
+results = matrix(rep(NA, 4 * j), nrow = j, ncol = 4, byrow = FALSE)
+for (k in 1:j) {
+results[k, 1] = a[k]
+results[k, 2] = b[k]
+results[k, 3] = c[k]
+results[k, 4] = d[k]
+}
+#Construyo el polinomio
+polinomios = rep(NA, times = j)
+for (i in 1:j) {
+polinomio = paste0("S", i, "(x) = ", results[i, 1])
+for(k in 2:4){
+polinomio = paste0(polinomio, glue(" + {results[i, k]} * (x - {x[i]})^{k - 1}"))
+}
+intervalo = paste0("\nIntervalo: [", x[i], "; ", x[i + 1], "]")
+polinomios[i] = paste(polinomio, intervalo)
+}
+for (p in polinomios) {
+    cat(p, "\n\n")
+}
+}
+
+print(TrazadorCubicoNatural(x = c(2.5, 17.5), y = c(0.0013, 0.9987)))
+
+# Polinomio de Newton (usando los coeficientes que generaste con polinomio_newton)
+newton <- function(x) {
+  return(0.0013+0.00581333333333333*(x - 2.5)+0.00621511111111111*(x - 2.5)*(x - 4.375)+0.00147796840946845*(x - 2.5)*(x - 4.375)*(x - 6.25)+-0.00013981075186483*(x - 2.5)*(x - 4.375)*(x - 6.25)*(x - 8.15)+-3.5465693702153e-05*(x - 2.5)*(x - 4.375)*(x - 6.25)*(x - 8.15)*(x - 10)+8.03802025986419e-06*(x - 2.5)*(x - 4.375)*(x - 6.25)*(x - 8.15)*(x - 10)*(x - 11.875)+-7.25473707430813e-07*(x - 2.5)*(x - 4.375)*(x - 6.25)*(x - 8.15)*(x - 10)*(x - 11.875)*(x - 13.75)+2.78680510037689e-08*(x - 2.5)*(x - 4.375)*(x - 6.25)*(x - 8.15)*(x - 10)*(x - 11.875)*(x - 13.75)*(x - 15.625))
+}
+
+# Splines del trazador cúbico (usando los coeficientes de TrazadorCubicoNatural)
+spline1 <- function(x) {
+  return(0.0013 + (0.9987 - 0.0013) / (17.5 - 2.5) * (x - 2.5))
+}
+
+# Define los puntos en los que quieres evaluar cada función
+newtonX <- c(9)
+spline1X <- c(2.5, 17.5)
+
+# Calcula los valores de Y para cada tramo
+newtonY <- newton(newtonX)
+spline1Y <- spline1(spline1X)
+
+# Crea data frames para graficar
+df_newton <- data.frame(newtonX, newtonY)
+df_spline1 <- data.frame(spline1X, spline1Y)
+
+# Graficar utilizando ggplot2
+library(ggplot2)
+ggplot() + 
+with(df_spline1, geom_line(aes(spline1X, spline1Y), colour = "red", lwd = 1.2)) +
+geom_point(data = df_newton, aes(newtonX, newtonY), color = "green", size = 3) +
+geom_point(data = df_spline1, aes(spline1X, spline1Y), color = "blue", size = 3) +
+geom_hline(yintercept = 0, color = "black") +  
+geom_vline(xintercept = 0, color = "black") +
+labs(x = "x", y = "f(x)", title = "Comparación entre Polinomio de Newton y Trazador Cúbico Natural") +
+theme_minimal() +
+theme(plot.title = element_text(hjust = 0.5))
+
+# Vemos que no son el mismo punto
+
+##d-
+
+##2-
+
+set.seed(123)
+P0 <- 1000            # Precio inicial
+mu <- 0.1           # Tasa de rendimiento esperada
+sigma <- 0.01           # Volatilidad
+T <- 0.5               # Tiempo en años
+pasos <- 6         # Número de pasos (6 meses)
+n_sim <- 1000        # Número de simulaciones
+
+Pt <- matrix(0, nrow = n_sim, ncol = pasos + 1)
+Pt[, 1] <- P0
+dt <- T / pasos
+
+for (i in 1:n_sim) { # cuenta el numero de simulacion
+  for (j in 2:(pasos + 1)) {
+    Pt[i, j] <- Pt[i, j - 1] * exp((mu - 0.5 * sigma^2) * dt + sigma * sqrt(dt) * rnorm(1)) # rnorm(1) genera un numero aleatorio (es el epsilon de la formula)
+  }
+}
+mean(Pt[,6])
+
+set.seed(123)
+P0 <- 1000            # Precio inicial
+mu <- 0.1           # Tasa de rendimiento esperada
+sigma <- 0.01           # Volatilidad
+T <- 1               # Tiempo en años, lo cambiamos a 1
+pasos <- 6         # Número de pasos (6 meses)
+n_sim <- 1000        # Número de simulaciones
+
+Pt <- matrix(0, nrow = n_sim, ncol = pasos + 1)
+Pt[, 1] <- P0
+dt <- T / pasos
+
+for (i in 1:n_sim) { # cuenta el numero de simulacion
+  for (j in 2:(pasos + 1)) {
+    Pt[i, j] <- Pt[i, j - 1] * exp((mu - 0.5 * sigma^2) * dt + sigma * sqrt(dt) * rnorm(1)) # rnorm(1) genera un numero aleatorio (es el epsilon de la formula)
+  }
+}
+precios_finales = Pt[, pasos + 1]
+
+probabilidad = mean(precios_finales < 1100)
+print(probabilidad)
