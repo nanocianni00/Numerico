@@ -213,5 +213,46 @@ sd(PT[, 1])
 
 ##b-
 
+set.seed(123)
+mu <- 0.15         # Tasa de rendimiento esperada
+sigma <- 0.2           # Volatilidad
+T <- 1               # Tiempo en años
+pasos <- 540         # Número de pasos (360 días)
+n_sim <- 2000        # Número de simulaciones
+dt <- T / pasos
+
+P0 <- rep(NA, times = 2)
+
+getSymbols("PEP", auto.assign = TRUE, src = "yahoo")
+
+aux <- data.frame(PEP)
+rm(PEP)
+
+P0[1] <- aux['2023-06-05',]$PEP.Adjusted
+rm(aux)
+
 PT <- matrix(0, nrow = n_sim, ncol = pasos + 1)
 PT[, 1] <- P0
+
+# Simulaciones usando GBM
+for (i in 1:n_sim) {
+for (j in 2:(pasos + 1)) {
+PT[i, j] <- PT[i, j - 1] * exp((mu - 0.5 * sigma^2) * dt + sigma * sqrt(dt) * rnorm(1))
+}
+}
+mean(PT[, 540])
+
+vec<-rep(0:n,m)
+matr<-matrix(vec,nrow= m, ncol=n+1,byrow=TRUE)
+
+plot(matr[1,],Pt[1,],type="l", ylim=c(min(Pt),max(Pt)))
+for(i in 2:m){
+  lines(matr[i,],Pt[i,], col=trunc(runif(1)*m))
+}
+
+matrizdemedias<-matrix(NA,nrow=1,ncol=n+1)
+for(i in 2:n+1){
+  matrizdemedias[1,i]<-mean(Pt[,i])
+}
+
+lines(matr[1,],matrizdemedias[1,], col="black",lwd = 5)
