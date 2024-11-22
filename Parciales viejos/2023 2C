@@ -216,4 +216,20 @@ resultado = data.frame(x, fx, fprima)
 return(resultado)
 }
 
+dif_prog(x = seq(2.1, 2.5, by = 0.1), fx = c(-1.709847, -1.373823, -1.119214, -0.9160143, -0.7470223))
+
+dif_reg = function(x, fx){
+  fprima = rep(NA, times = length(x))
+h = x[2] - x[1]
+for (i in (length(x):2)) {
+    fprima[i] = (fx[i-1] - fx[i]) / (-h)
+}
+resultado = data.frame(x, fx, fprima)
+
+return(resultado)
+}
+
+dif_reg(x = seq(2.1, 2.5, by = 0.1), fx = c(-1.709847, -1.373823, -1.119214, -0.9160143, -0.7470223))
+
+##b-
 
