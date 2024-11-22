@@ -23,3 +23,21 @@ simpson_compuesto(limiteInferior = 0, limiteSuperior = 1000, funcion = expressio
 
 ##2-a-
 
+set.seed(123)
+P0 <- 75            # Precio inicial
+mu <- 0.15           # Tasa de rendimiento esperada
+sigma <- 0.2           # Volatilidad
+T <- 1               # Tiempo en años
+pasos <- 180         # Número de pasos (360 días)
+n_sim <- 1000        # Número de simulaciones
+
+Pt <- matrix(0, nrow = n_sim, ncol = pasos + 1)
+Pt[, 1] <- P0
+dt <- T / pasos
+
+for (i in 1:n_sim) { # cuenta el numero de simulacion
+  for (j in 2:(pasos + 1)) {
+    Pt[i, j] <- Pt[i, j - 1] * exp((mu - 0.5 * sigma^2) * dt + sigma * sqrt(dt) * rnorm(1)) # rnorm(1) genera un numero aleatorio (es el epsilon de la formula)
+  }
+}
+mean(Pt[,180])
