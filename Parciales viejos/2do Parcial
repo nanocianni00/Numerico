@@ -47,7 +47,7 @@ valor_polinomio(x = c(2.5, 4.375, 6.25, 8.15, 10, 11.875, 13.75, 15.625, 17.5), 
 
 ##b-
 
-# Con el polinomio de Lagrange podria llegar a tener un sobreajuste por la gran cantidad de puntos que tengo en el ejercicio
+# Con el polinomio de Lagrange podria llegar a tener un valor distinto en los extremos ya que aproxima mal los mismos
 
 ##c-
 
@@ -186,24 +186,41 @@ for (i in 1:n_sim) { # cuenta el numero de simulacion
 }
 mean(Pt[,6])
 
-set.seed(123)
-P0 <- 1000            # Precio inicial
-mu <- 0.1           # Tasa de rendimiento esperada
-sigma <- 0.01           # Volatilidad
-T <- 1               # Tiempo en años, lo cambiamos a 1
-pasos <- 6         # Número de pasos (6 meses)
-n_sim <- 1000        # Número de simulaciones
-
-Pt <- matrix(0, nrow = n_sim, ncol = pasos + 1)
-Pt[, 1] <- P0
-dt <- T / pasos
-
-for (i in 1:n_sim) { # cuenta el numero de simulacion
-  for (j in 2:(pasos + 1)) {
-    Pt[i, j] <- Pt[i, j - 1] * exp((mu - 0.5 * sigma^2) * dt + sigma * sqrt(dt) * rnorm(1)) # rnorm(1) genera un numero aleatorio (es el epsilon de la formula)
-  }
-}
-precios_finales = Pt[, pasos + 1]
 
 probabilidad = mean(precios_finales < 1100)
 print(probabilidad)
+
+vec<-rep(0:pasos,n_sim)
+matr<-matrix(vec,nrow= n_sim, ncol=pasos+1,byrow=TRUE)
+
+plot(matr[1,],Pt[1,],type="l", ylim=c(min(Pt),max(Pt)))
+for(i in 2:n_sim){
+  lines(matr[i,],Pt[i,], col=trunc(runif(1)*n_sim))
+}
+
+matrizdemedias<-matrix(NA,nrow=1,ncol=pasos+1)
+for(i in 2:pasos+1){
+  matrizdemedias[1,i]<-mean(Pt[,i])
+}
+
+lines(matr[1,],matrizdemedias[1,], col="black",lwd = 5)
+##3-
+
+simpson_compuesto <- function(limiteInferior, limiteSuperior, funcion, n) {
+  h <- (limiteSuperior - limiteInferior) / n
+  suma <- 0
+  for (i in 1:(n/2)) {
+    xi <- limiteInferior + (2*i - 2)*h
+    xi_1 <- limiteInferior + (2*i - 1)*h
+    xi_2 <- limiteInferior + 2*i*h
+    
+    fx0 <- eval(funcion, list(x = xi))
+    fx1 <- eval(funcion, list(x = xi_1))
+    fx2 <- eval(funcion, list(x = xi_2))
+    
+    suma <- suma + (h / 3) * (fx0 + 4 * fx1 + fx2)
+  }
+  return(suma)
+}
+
+simpson_compuesto(limiteInferior = -100, limiteSuperior = 0, funcion = expression(log(x)), n = 1000)
