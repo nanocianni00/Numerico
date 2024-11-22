@@ -221,14 +221,12 @@ pasos <- 540         # Número de pasos (360 días)
 n_sim <- 2000        # Número de simulaciones
 dt <- T / pasos
 
-P0 <- rep(NA, times = 2)
-
 getSymbols("PEP", auto.assign = TRUE, src = "yahoo")
 
 aux <- data.frame(PEP)
 rm(PEP)
 
-P0[1] <- aux['2023-06-05',]$PEP.Adjusted
+P0 <- aux['2023-06-05',]$PEP.Adjusted
 rm(aux)
 
 PT <- matrix(0, nrow = n_sim, ncol = pasos + 1)
@@ -242,17 +240,83 @@ PT[i, j] <- PT[i, j - 1] * exp((mu - 0.5 * sigma^2) * dt + sigma * sqrt(dt) * rn
 }
 mean(PT[, 540])
 
-vec<-rep(0:n,m)
-matr<-matrix(vec,nrow= m, ncol=n+1,byrow=TRUE)
+vec<-rep(0:pasos,n_sim)
+matr<-matrix(vec,nrow= n_sim, ncol=pasos+1,byrow=TRUE)
 
-plot(matr[1,],Pt[1,],type="l", ylim=c(min(Pt),max(Pt)))
-for(i in 2:m){
-  lines(matr[i,],Pt[i,], col=trunc(runif(1)*m))
+plot(matr[1,],PT[1,],type="l", ylim=c(min(PT),max(PT)))
+for(i in 2:n_sim){
+  lines(matr[i,],PT[i,], col=trunc(runif(1)*n_sim))
 }
 
-matrizdemedias<-matrix(NA,nrow=1,ncol=n+1)
-for(i in 2:n+1){
-  matrizdemedias[1,i]<-mean(Pt[,i])
+matrizdemedias<-matrix(NA,nrow=1,ncol=pasos+1)
+for(i in 2:pasos+1){
+  matrizdemedias[1,i]<-mean(PT[,i])
 }
 
 lines(matr[1,],matrizdemedias[1,], col="black",lwd = 5)
+
+# Definir el nivel de confianza
+prob <- 0.975  # Intervalo de confianza al 95%
+
+# Inicializar los límites superior e inferior
+ls <- matrix(NA, nrow = 1, ncol = pasos + 1)
+li <- matrix(NA, nrow = 1, ncol = pasos + 1)
+
+# Calcular los límites superior e inferior en cada paso
+for (i in 1:(pasos + 1)) {
+  ls[i] <- quantile(PT[, i], prob)        # Cuantil superior
+  li[i] <- quantile(PT[, i], 1 - prob)    # Cuantil inferior
+}
+
+# Graficar el intervalo de confianza en rojo
+lines(1:(pasos + 1), ls[1, ], col = "red", lwd = 3)
+lines(1:(pasos + 1), li[1, ], col = "red", lwd = 3)
+
+##c-
+#De Pepsi ya esta hecho
+
+set.seed(123)
+mu <- 0.11         # Tasa de rendimiento esperada
+sigma <- 0.17           # Volatilidad
+T <- 1               # Tiempo en años
+pasos <- 360         # Número de pasos (360 días)
+n_sim <- 5000        # Número de simulaciones
+dt <- T / pasos
+
+getSymbols("KO", auto.assign = TRUE, src = "yahoo")
+
+aux <- data.frame(KO)
+rm(KO)
+
+P0 <- aux['2023-06-05',]$KO.Adjusted
+rm(aux)
+
+PT <- matrix(0, nrow = n_sim, ncol = pasos + 1)
+PT[, 1] <- P0
+
+# Simulaciones usando GBM
+for (i in 1:n_sim) {
+for (j in 2:(pasos + 1)) {
+PT[i, j] <- PT[i, j - 1] * exp((mu - 0.5 * sigma^2) * dt + sigma * sqrt(dt) * rnorm(1))
+}
+}
+mean(PT[, 360])
+
+prob <- 0.975  # Percentil del 97.5% para el límite superior (95% de confianza)
+
+ls <- rep(NA, pasos + 1)
+li <- rep(NA, pasos + 1)
+
+for (i in 1:(pasos + 1)) {
+  ls[i] <- quantile(PT[, i], prob)         # Cuantil superior (97.5%)
+  li[i] <- quantile(PT[, i], 1 - prob)     # Cuantil inferior (2.5%)
+}
+
+cat("Intervalo de confianza al 95% en el último paso:\n")
+cat("Límite inferior:", li[pasos + 1], "\n")
+cat("Límite superior:", ls[pasos + 1], "\n")
+
+#Me dio paja hacer el ultimo
+
+##4-
+
