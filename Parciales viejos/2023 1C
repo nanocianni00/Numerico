@@ -136,3 +136,6 @@ spline1 <- function(x) {
   return(0.0013 + (0.9987 - 0.0013) / (17.5 - 2.5) * (x - 2.5))
 }
 
+# Define los puntos en los que quieres evaluar cada función
+newtonX <- 9
+spline1X <- 9
