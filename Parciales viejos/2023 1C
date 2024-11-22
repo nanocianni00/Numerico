@@ -139,3 +139,8 @@ spline1 <- function(x) {
 # Define los puntos en los que quieres evaluar cada función
 newtonX <- 9
 spline1X <- 9
+
+# Calcula los valores de Y para cada tramo
+newtonY <- newton(newtonX)
+spline1Y <- spline1(spline1X)
+
