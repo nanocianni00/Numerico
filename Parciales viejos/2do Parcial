@@ -190,20 +190,12 @@ mean(Pt[,6])
 probabilidad = mean(precios_finales < 1100)
 print(probabilidad)
 
-vec<-rep(0:pasos,n_sim)
-matr<-matrix(vec,nrow= n_sim, ncol=pasos+1,byrow=TRUE)
+vec<-rep(0:pasos,n_sim = 500)
+matr<-matrix(vec,nrow= 1, ncol=pasos+1,byrow=TRUE)
 
 plot(matr[1,],Pt[1,],type="l", ylim=c(min(Pt),max(Pt)))
-for(i in 2:n_sim){
-  lines(matr[i,],Pt[i,], col=trunc(runif(1)*n_sim))
-}
 
-matrizdemedias<-matrix(NA,nrow=1,ncol=pasos+1)
-for(i in 2:pasos+1){
-  matrizdemedias[1,i]<-mean(Pt[,i])
-}
 
-lines(matr[1,],matrizdemedias[1,], col="black",lwd = 5)
 ##3-
 
 simpson_compuesto <- function(limiteInferior, limiteSuperior, funcion, n) {
