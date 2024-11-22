@@ -202,7 +202,7 @@ P0[1] <- aux['2023-06-05',]$PEP.Adjusted
 rm(aux)
 
 e<-rnorm(n_sim)
-PT<-matrix(NA,nrow=n_sim,ncol=2)
+PT<-matrix(NA, nrow = n_sim, ncol = 2)
 for(i in 1:2){
  PT[,i]<-P0[i] * exp((mu[i]  - 0.5 * sigma[i]^2) * 0.5 + sigma[i] * sqrt(dt) * e)  
 }
@@ -213,3 +213,5 @@ sd(PT[, 1])
 
 ##b-
 
+PT <- matrix(0, nrow = n_sim, ncol = pasos + 1)
+PT[, 1] <- P0
