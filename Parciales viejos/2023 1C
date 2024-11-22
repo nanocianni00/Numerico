@@ -144,3 +144,7 @@ spline1X <- 9
 newtonY <- newton(newtonX)
 spline1Y <- spline1(spline1X)
 
+# Crea data frames para graficar
+df_newton <- data.frame(newtonX, newtonY)
+df_spline1 <- data.frame(spline1X, spline1Y)
+
