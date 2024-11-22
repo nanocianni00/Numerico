@@ -31,8 +31,7 @@ Cinco_puntos_modificado(x = c(3.05, 3.86, 4.67, 5.075, 5.48, 5.885, 6.29, 7.1, 7
 #No se como se hace
 
 ##c-
-
-
+#Me mató con este tambien
 
 ##d-
 
@@ -55,3 +54,6 @@ SegundaDerivada = function (x, fx){
 }
 
 SegundaDerivada(x = c(3.05, 3.86, 4.67, 5.075, 5.48, 5.885, 6.29, 7.1, 7.91), fx = c(0.3619, -3.048, -10.0123, -5.5379, -3.4302, -1.6538, 0.0272, 2.7344, 3.6877))
+
+##2-
+
