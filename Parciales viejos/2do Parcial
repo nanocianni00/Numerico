@@ -186,7 +186,7 @@ for (i in 1:n_sim) { # cuenta el numero de simulacion
 }
 mean(Pt[,6])
 
-
+precios_finales = Pt[, pasos + 1]
 probabilidad = mean(precios_finales < 1100)
 print(probabilidad)
 
