@@ -240,6 +240,8 @@ Cinco_puntos = function(x, fx){
   
   h = x[2] - x[1]
   
+  
+  #Punto medio
   for (i in 3:(n-2)) {
     fprima[i] = (1/(12*h))*(fx[i-2]-8*fx[i-1]+8*fx[i+1]-fx[i+2])
   }
@@ -249,4 +251,31 @@ Cinco_puntos = function(x, fx){
   return(tabla)
 }
 
-Cinco_puntos(x = c(2.1, 2.2, 2.3, 2.4, 2.5), y = c(-1.709847, -1.373823, -1.119214, -0.9160143, -0.7470223))
+
+Cinco_puntos(x = c(2.1, 2.2, 2.3, 2.4, 2.5), fx = c(-1.709847, -1.373823, -1.119214, -0.9160143, -0.7470223))
+
+##c-
+
+SegundaDerivada <- function (x, fx){
+  n <- length(x)
+  
+  fprima <- rep(NA, times = n)
+  
+  h <- x[2] - x[1]
+  
+  #Punto medio
+  for (i in 2:(n-1)) {
+    fprima[i] <- (1/(h^2))*(fx[i-1]-2*fx[i]+fx[i+1])
+  }
+  
+  tabla <- data.frame(x, fx, fprima)
+  
+  return(tabla)
+  
+}
+
+SegundaDerivada(x = seq(2.1, 2.5, by = 0.1), fx = c(-1.709847, -1.373823, -1.119214, -0.9160143, -0.7470223))
+SegundaDerivada(x = seq(2.1, 2.5, by = 0.2), fx = c(-1.709847, -1.119214, -0.7470223))
+
+##4-
+
