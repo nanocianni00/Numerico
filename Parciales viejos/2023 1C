@@ -124,5 +124,15 @@ for (p in polinomios) {
 }
 }
 
-print(TrazadorCubicoNatural(x = c(1, 2), y = c(1, 2)))
+print(TrazadorCubicoNatural(x = c(2.5, 17.5), y = c(0.0013, 0.9987)))
+
+# Polinomio de Newton (usando los coeficientes que generaste con polinomio_newton)
+newton <- function(x) {
+  return(0.0013+0.00581333333333333*(x - 2.5)+0.00621511111111111*(x - 2.5)*(x - 4.375)+0.00155496296296296*(x - 2.5)*(x - 4.375)*(x - 6.25)+-0.00017901037037037*(x - 2.5)*(x - 4.375)*(x - 6.25)*(x - 8.125)+-2.47760241426612e-05*(x - 2.5)*(x - 4.375)*(x - 6.25)*(x - 8.125)*(x - 10)+6.10191002591068e-06*(x - 2.5)*(x - 4.375)*(x - 6.25)*(x - 8.125)*(x - 10)*(x - 11.875)+-4.64907430545577e-07*(x - 2.5)*(x - 4.375)*(x - 6.25)*(x - 8.125)*(x - 10)*(x - 11.875)*(x - 13.75)+2.5410988417629e-22*(x - 2.5)*(x - 4.375)*(x - 6.25)*(x - 8.125)*(x - 10)*(x - 11.875)*(x - 13.75)*(x - 15.625))
+}
+
+# Splines del trazador cúbico (usando los coeficientes de TrazadorCubicoNatural)
+spline1 <- function(x) {
+  return(0.0013 + (0.9987 - 0.0013) / (17.5 - 2.5) * (x - 2.5))
+}
 
