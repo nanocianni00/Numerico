@@ -320,3 +320,21 @@ cat("Límite superior:", ls[pasos + 1], "\n")
 
 ##4-
 
+simpson_compuesto <- function(limiteInferior, limiteSuperior, funcion, n) {
+  h <- (limiteSuperior - limiteInferior) / n
+  suma <- 0
+  for (i in 1:(n/2)) {
+    xi <- limiteInferior + (2*i - 2)*h
+    xi_1 <- limiteInferior + (2*i - 1)*h
+    xi_2 <- limiteInferior + 2*i*h
+    
+    fx0 <- eval(funcion, list(x = xi))
+    fx1 <- eval(funcion, list(x = xi_1))
+    fx2 <- eval(funcion, list(x = xi_2))
+    
+    suma <- suma + (h / 3) * (fx0 + 4 * fx1 + fx2)
+  }
+  return(suma)
+}
+
+simpson_compuesto(limiteInferior = 240, limiteSuperior = 1000, funcion = expression(1/((sqrt(675) * sqrt(2 * pi))) * exp(- ((x - 300)^2)/(2 * 675))), n = 1000)
