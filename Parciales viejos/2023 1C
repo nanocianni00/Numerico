@@ -148,3 +148,8 @@ spline1Y <- spline1(spline1X)
 df_newton <- data.frame(newtonX, newtonY)
 df_spline1 <- data.frame(spline1X, spline1Y)
 
+# Graficar utilizando ggplot2
+library(ggplot2)
+ggplot() +
+with(df_newton, geom_line(aes(newtonX, newtonY), colour = "darkblue", lwd = 1.2)) + 
+with(df_spline1, geom_line(aes(spline1X, spline1Y), colour = "red", lwd = 1.2)) +
