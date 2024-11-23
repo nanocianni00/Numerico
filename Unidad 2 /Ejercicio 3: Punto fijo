@@ -13,3 +13,9 @@ puntofijo = function(p0, Tol,N){
  polinomio = function(x) {
  (3*x^2 + 3)^(1/4)
  }
+
+polinomio = function(x) {
+(3 * x^2 + 3)^(1/4)
+}
+
+puntofijo(1, 10^(-2), 100)
