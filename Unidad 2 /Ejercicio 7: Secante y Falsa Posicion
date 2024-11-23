@@ -1,3 +1,5 @@
+##a-
+
 secante = function(p0,p1,TOL,N){
   i = 2
   q0 = f_secante(p0)
@@ -20,8 +22,9 @@ f_secante = function(x) {
 x^2 - 6
 }
 
-print(secante(3,2,10^(-5),100))
+secante(3,2,10^(-5),100)
 
+##b-
 
 falsapos = function(p0,p1,TOL,N){
   i = 2
@@ -48,4 +51,4 @@ f_falsapos = function(x) {
 x^2 - 6
 }
 
-print(falsapos(3,2,10^(-5),100))
+falsapos(3,2,10^(-5),100)
