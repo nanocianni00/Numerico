@@ -20,3 +20,9 @@ cota_biseccion = function(a, b, tol, N) {
   }
   return(paste('El método falló luego de ', N, ' iteraciones.'))
 }
+
+polinomio = function(x) {
+x^3 + x - 4
+}
+
+cota_biseccion(1, 4, 10^(-3), 100)
