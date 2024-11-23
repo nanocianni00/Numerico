@@ -1,3 +1,5 @@
+##1-a-
+
 raiz_biseccion <- function(a,b,Tol,N){
   i = 1
   FA = polinomio(a)
@@ -17,3 +19,18 @@ raiz_biseccion <- function(a,b,Tol,N){
   }
   return(paste("El metodo fallo luego de", N, "iteraciones"))
 }
+
+polinomio = function(x) { 
+x - 2^(-x)
+}
+
+raiz_biseccion(0, 1, 10^(-5), 100)
+
+##c-
+
+polinomio = function(x) { 
+2 * x * cos(2*x) - (x + 1)^2
+}
+
+raiz_biseccion(-3, -2, 10^(-5), 100)
+raiz_biseccion(-1, 0, 10^(-5), 100)
