@@ -1,5 +1,13 @@
-consulta = sqldf("
-SELECT
-c.CustomerName as 'Nombre del Cliente',
-COUNT(DISTINCT(o.OrderID)) as 'Cantidad de Ordenes',
-p.Price * od.Quantity as 'Total'
+  consulta = sqldf("
+  SELECT
+  c.CustomerName as 'Nombre del Cliente',
+  COUNT(DISTINCT(o.OrderID)) as 'Cantidad de Ordenes',
+  p.Price * od.Quantity as 'Total'
+   FROM customers c
+    INNER JOIN customers c ON o.CustomerID = c.CustomerID  
+    INNER JOIN orderdetails od ON o.OrderID = od.OrderID  
+    INNER JOIN products p ON p.ProductID = od.ProductID  
+    WHERE c.Country = 'USA' 
+  ")
+  
+  print(consulta)
