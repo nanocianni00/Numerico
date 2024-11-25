@@ -1,0 +1,5 @@
+consulta = sqldf("
+SELECT
+c.CustomerName as 'Nombre del Cliente',
+COUNT(DISTINCT(o.OrderID)) as 'Cantidad de Ordenes',
+p.Price * od.Quantity as 'Total'
