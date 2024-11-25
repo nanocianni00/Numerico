@@ -1,13 +1,14 @@
-  consulta = sqldf("
+  consulta2 = sqldf("
   SELECT
   c.CustomerName as 'Nombre del Cliente',
   COUNT(DISTINCT(o.OrderID)) as 'Cantidad de Ordenes',
   p.Price * od.Quantity as 'Total'
    FROM customers c
-    INNER JOIN customers c ON o.CustomerID = c.CustomerID  
-    INNER JOIN orderdetails od ON o.OrderID = od.OrderID  
+    INNER JOIN orders o ON o.CustomerID = c.CustomerID  
+    INNER JOIN orderdetails od ON od.OrderID = o.OrderID  
     INNER JOIN products p ON p.ProductID = od.ProductID  
-    WHERE c.Country = 'USA' 
+    WHERE c.Country = 'USA'
+GROUP BY o.CustomerID
   ")
   
-  print(consulta)
+  print(consulta2)
