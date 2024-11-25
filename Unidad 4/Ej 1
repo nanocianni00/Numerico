@@ -1,0 +1,24 @@
+library(sqldf)
+
+consulta <- sqldf("
+  SELECT 
+    e.FirstName AS 'Nombre del vendedor',  
+    e.LastName AS 'Apellido del vendedor',  
+    c.CustomerName AS 'Nombre del cliente',  
+    o.OrderID AS 'ID de la orden',  
+    p.ProductName AS 'Nombre del producto',  
+    p.Unit AS 'Presentacion',  
+    od.Quantity AS 'Cantidad',  
+    p.Price AS 'Precio',  
+    p.Price * od.Quantity AS 'Total'  
+  FROM orders  o
+  INNER JOIN customers c ON o.CustomerID = c.CustomerID  
+  INNER JOIN employees e ON o.EmployeeID = e.EmployeeID  
+  INNER JOIN orderdetails od ON o.OrderID = od.OrderID  
+  INNER JOIN products p ON p.ProductID = od.ProductID  
+  WHERE e.FirstName = 'Margaret' 
+    AND e.LastName = 'Peacock' 
+    AND c.CustomerName = 'Frankenversand'
+")
+
+print(consulta)
