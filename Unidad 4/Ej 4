@@ -1,0 +1,18 @@
+consulta = sqldf("
+SELECT
+c.CustomerName as 'Nombre del Cliente',
+c.City as 'Ciudad',
+c.Country as 'Pais',
+o.OrderID as 'ID de la orden de compra',
+p.ProductName as 'Nombre del Producto',
+p.Unit as 'Presentacion',
+od.Quantity as 'Cantidad',
+p.Price as 'Precio',
+p.Price * od.Quantity as 'Total'
+FROM customers c
+INNER JOIN orders o ON c.CustomerID = o.CustomerID
+INNER JOIN orderdetails od ON od.OrderID = o.OrderID
+INNER JOIN products p ON p.ProductID = od.ProductID
+")
+
+print(consulta)
