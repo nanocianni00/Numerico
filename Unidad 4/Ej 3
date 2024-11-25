@@ -1,0 +1,12 @@
+consulta = sqldf("
+SELECT
+c.Categoryname as 'Nombre de la Categoria',
+MIN(p.Price) as 'Precio Minimo',
+MAX(p.Price) as 'Precio Maximo'
+FROM products p
+INNER JOIN categories c on p.CategoryID = c.CategoryID
+GROUP BY p.CategoryID
+ORDER BY MAX(p.Price) DESC
+")
+
+print(consulta)
