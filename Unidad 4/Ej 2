@@ -1,0 +1,11 @@
+consulta = sqldf("
+SELECT ProductName as 'Nombre del producto',  
+Unit as 'Presentacion',  
+Price as 'Precio Original',  
+CASE WHEN Price > 75 THEN '12%' WHEN Price > 50 THEN '8%' WHEN Price >= 30 THEN '4%' ELSE '0%' END as 'Descuento %',  
+round(Price * (CASE WHEN Price > 75 THEN 0.12 WHEN Price > 50 THEN 0.8 WHEN Price >= 30 THEN 0.4 ELSE 0 END), 2) as 'Descuento $',  
+round(Price - Price * (CASE WHEN Price > 75 THEN 0.12 WHEN Price > 50 THEN 0.8 WHEN Price >= 30 THEN 0.4 ELSE 0 END), 2) as 'Precio con descuento'  
+FROM products  
+")
+
+print(consulta)
