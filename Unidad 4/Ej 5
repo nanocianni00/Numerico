@@ -1,0 +1,12 @@
+consulta = sqldf("
+SELECT
+ProductName as 'Nombre del Producto',
+Unit as 'Presentacion',
+Price as 'Precio Original',
+CASE WHEN Unit LIKE '%box%' THEN '7%' WHEN Unit LIKE '%bag%' OR Unit LIKE '%bottle%' THEN '5%' ELSE '2%' END as 'Recargo (%)',
+round(Price * (CASE WHEN Unit LIKE '%box%' THEN 0.07 WHEN Unit LIKE '%bag%' OR Unit LIKE '%bottle%' THEN 0.05 ELSE 0.02 END), 2) as 'Recargo ($)',
+round(Price + Price * (CASE WHEN Unit LIKE '%box%' THEN 0.07 WHEN Unit LIKE '%bag%' OR Unit LIKE '%bottle%' THEN 0.05 ELSE 0.02 END), 2) as 'Precio con Recargo'
+FROM products p
+")
+
+print(consulta)
