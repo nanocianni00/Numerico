@@ -15,7 +15,7 @@ INNER JOIN products p ON p.SupplierID = s.SupplierID
 INNER JOIN orderdetails od ON p.ProductID = od.ProductID
 INNER JOIN categories c ON p.CategoryID = c.CategoryID
 WHERE s.Country = 'Japan'
-GROUP BY p.ProductID
+GROUP BY od.OrderID
 ")
 
 print(consulta)
