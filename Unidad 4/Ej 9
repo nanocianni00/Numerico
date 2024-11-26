@@ -1,0 +1,12 @@
+consulta = sqldf("
+SELECT
+s.Country as 'Pais',
+s.City as 'Ciudad',
+COUNT(DISTINCT(p.ProductID)) as 'Cantidad de prod',
+COUNT(DISTINCT(p.SupplierID)) as 'Cant de proveedores'
+FROM suppliers s
+INNER JOIN products p ON s.SupplierID = p.SupplierID
+GROUP BY s.City, s.Country
+")
+
+print(consulta)
