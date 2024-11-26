@@ -4,9 +4,9 @@ e.FirstName || ' ' || e.LastName as 'Nombre del Vendedor',
 COUNT(e.EmployeeID) as 'Cantidad de Ventas',
 ROUND(SUM(p.Price * od.Quantity), 2) as 'Total Vendido',
 CASE WHEN ROUND(SUM(p.Price * od.Quantity), 2) > 100000 THEN '20%'
-WHEN ROUND(SUM(p.Price * 0d.Quantity), 2) > 40000 THEN '10%'
+WHEN ROUND(SUM(p.Price * od.Quantity), 2) > 40000 THEN '10%'
 WHEN ROUND(SUM(p.Price * od.Quantity), 2) > 30000 THEN '5%'
-ELSE '0%' END
+ELSE '0%' END as 'Comision (%)'
 FROM employees e
 INNER JOIN orders o ON e.EmployeeID = o.EmployeeID
 INNER JOIN orderdetails od ON o.OrderID = od.OrderID
