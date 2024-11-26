@@ -1,0 +1,16 @@
+consulta = sqldf("
+SELECT
+c.CustomerName as 'Nombre',
+c.City as 'Ciudad',
+c.Country as 'Pais',
+COUNT(o.CustomerID) as 'Cantidad de compras',
+ROUND(SUM(p.Price * od.Quantity), 2) as 'Total'
+FROM customers c
+INNER JOIN orders o ON c.CustomerID = o.CustomerID
+INNER JOIN products p ON od.ProductID = p.ProductID
+INNER JOIN orderdetails od ON o.OrderID = od.OrderID
+GROUP BY c.CustomerID
+HAVING SUM(p.Price * od.Quantity) > 14000
+")
+
+print(consulta)
