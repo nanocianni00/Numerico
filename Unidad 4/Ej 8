@@ -1,0 +1,21 @@
+consulta = sqldf("
+SELECT
+od.OrderID as 'Orden de Compra',
+s.SupplierName as 'Nombre del Proveedor',
+s.City as 'Ciudad del Proveedor',
+s.Country as 'Pais del Proveedor',
+s.ContactName as 'Contacto del Proveedor',
+p.ProductName as 'Nombre del Producto',
+c.CategoryName as 'Categoria',
+SUM(od.Quantity) as 'Cantidad',
+p.Price as 'Precio',
+ROUND(SUM(p.Price * od.Quantity), 2) as 'Total'
+FROM suppliers s
+INNER JOIN products p ON p.SupplierID = s.SupplierID
+INNER JOIN orderdetails od ON p.ProductID = od.ProductID
+INNER JOIN categories c ON p.CategoryID = c.CategoryID
+WHERE s.Country = 'Japan'
+GROUP BY p.ProductID
+")
+
+print(consulta)
