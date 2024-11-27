@@ -1,2 +1,174 @@
 ##1-a-
 
+Factorizacion_Cholesky<-function(M){
+ #entrada
+ n=ncol(M) #Cambio filas por columnas
+ i=1
+ L=matrix(data=0,nrow = n,ncol=n, byrow = TRUE) #Agrego el byrow y nombro a las filas y columnas n
+ j=1
+ 
+ #paso1
+ L[1,1]=(M[1,1])^(0.5) #Cambie los parentesis por corchetes para las matrices
+ 
+ #paso2
+ j=i+1
+ for (j in j:n){
+ L[j,1]=(M[j,1])/(L[1,1]) #Cambio de lugar a M y L
+ }
+ 
+ #paso3
+ i=i+1
+ for(i in i:(n-1)){
+ #paso4
+ sum1=0 #cambio i por 0
+ k=1
+ for(k in k:(i-1)){
+ sum1=sum1+L[i,k]^2
+ }
+ L[i,i]=(M[i,i]-sum1)^(1/2)
+ 
+ #paso5
+ for(j in (i + 1):n){
+ sum2=0
+ k=1 #Cambie el orden y elimine j = i + 1 para evitar posibles confusiones
+ for(k in k:(i-1)){
+ sum2=sum2+L[j,k]*L[i,k]
+ }
+ L[j,i]=(M[j,i]-sum2)/L[i,i] 
+ 
+ }
+ }
+ 
+ #paso6
+ sum3=0
+ k=1 #Cambio 0 por 1
+ for(k in k:(n-1)){
+ sum3=sum3+(L[n,k]^2)
+ }
+ L[n,n]=(M[n,n]-sum3)^(1/2)
+ 
+ #paso7
+ return(L)
+ }
+
+##b-
+
+M = matrix(c(
+          4, -1, 1,
+          -1, 4.25, 2.75,
+          1, 2.75, 3.5
+), nrow = 3, ncol = 3)
+
+resultado = print(Factorizacion_Cholesky(M))
+
+##c-
+
+A <- matrix(c(
+4,-1,1,
+-1, 4.25, 2.75,
+1, 2.75, 3.5),
+nrow=3, byrow=TRUE)
+
+factorizacionLU<-function(A){
+  n<-nrow(A)
+  L<-diag(1,n,n)
+  U<-A
+  for(i in 1:(n-1)){
+    if(U[i,i]==0){
+      stop("Factorizacion no posible se necesita pivoteo")
+    }
+    for(j in (i+1):n){
+      L[j,i]<-U[j,i]/U[i,i]
+      U[j,]<-U[j,]-L[j,i]*U[i,]
+    }
+  }
+  return (list(L=L,U=U))
+}
+result<-factorizacionLU(A)
+L<-result$L
+U<-result$U
+print(L)
+print(U)
+LU<-L%*%U
+print(LU)
+
+##2-a-
+
+raiz_biseccion <- function(a,b,Tol,N){
+  i = 1
+  FA = polinomio(a)
+  while(i<=N){
+    p = a + (b-a)/2
+    FP = polinomio(p)
+    if(FP==0 | (b-a)/2<Tol){
+      return(p)
+    }
+    i = i+1
+    if(FP*FA >0){
+      a = p
+      FA = FP
+    } else {
+      b = p
+    }
+  }
+  return(paste("El metodo fallo luego de", N, "iteraciones"))
+}
+
+polinomio = function(x) { 
+15000*(1-(1+x)^(-24))/x-200000
+}
+
+raiz_biseccion(0.001, 2, 10^(-10), 10000)
+
+##b-
+
+polinomio <- function(x) { 
+  15000 * (1 - (1 + x)^(-24)) / x - 200000
+}
+
+x_values <- seq(0.001, 0.1, by = 0.001)
+
+y_values <- sapply(x_values, polinomio)
+
+plot(x_values, y_values, type = "l", col = "blue", lwd = 2,
+     xlab = "Tasa de interés mensual (x)", ylab = "f(x)",
+     main = "Gráfico de la función para encontrar la tasa de interés")
+abline(h = 0, col = "red", lty = 2)  # Línea horizontal en f(x) = 0
+grid()
+
+##c-
+
+raiz_biseccion <- function(a, b, Tol, N) {
+  i = 1
+  FA = polinomio(a)
+  
+  while (i <= N) {
+    p = a + (b - a) / 2
+    FP = polinomio(p)
+    
+    # Línea para imprimir cada iteración
+    print(paste("Iteración:", i, "a:", a, "b:", b, "p:", p))
+    
+    if (FP == 0 | (b - a) / 2 < Tol) {
+      return(p)
+    }
+    
+    i = i + 1
+    if (FP * FA > 0) {
+      a = p
+      FA = FP
+    } else {
+      b = p
+    }
+  }
+  return(paste("El método falló luego de", N, "iteraciones"))
+}
+
+polinomio <- function(x) { 
+  15000 * (1 - (1 + x)^(-24)) / x - 200000
+}
+
+raiz_biseccion(0.001, 2, 10^(-10), 10000)
+
+##3-a-
+
