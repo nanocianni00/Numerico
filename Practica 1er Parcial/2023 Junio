@@ -1,0 +1,124 @@
+##1-a-
+
+newton_raphson = function(p0, TOL,N){
+  i = 1
+  while(i<=N){
+    x = p0
+    p = p0- Polinomio_newton(p0)/dfnewton(p0)
+    print(p)
+    if(abs(p-p0)<TOL){
+      return(p)
+    }
+    i = i+1
+    p0 = p
+  }
+  return(paste("El metodo fallo luego de", N,"iteraciones"))
+}
+
+Polinomio_newton = function(x) { 
+9 * sin(x) - exp(46/(x^5))
+}
+dfnewton = function(x) {
+9 * cos(x) + 46 * 5 * x^(-6) * exp(46/(x^5))
+}
+
+print (newton_raphson(35,10^(-5),100)) #Pruebo con varios valores distintos de p0 dentro del intervalo
+print (newton_raphson(37.5,10^(-5),100))
+print (newton_raphson(40,10^(-5),100))
+print (newton_raphson(42.5,10^(-5),100))
+print (newton_raphson(45,10^(-5),100))
+
+#las raices son 37.81; 40.73; y 44.09
+
+##b-
+
+newton_raphson = function(p0, TOL,N){
+  i = 1
+  while(i<=N){
+    x = p0
+    p = p0- Polinomio_newton(p0)/dfnewton(p0)
+    print(p)
+    if(abs(p-p0)<TOL){
+      return(p)
+    }
+    i = i+1
+    p0 = p
+  }
+  return(paste("El metodo fallo luego de", N,"iteraciones"))
+}
+
+Polinomio_newton = function(x) { 
+9 * sin(x) - exp(46/(x^5))
+}
+dfnewton = function(x) {
+9 * cos(x) + 46 * 5 * x^(-6) * exp(46/(x^5))
+}
+
+print (newton_raphson(41,10^(-5),5))
+
+##c-
+
+x_values <- seq(35, 45, by = 0.01)  
+y_values <- sapply(x_values, Polinomio_newton)  
+
+plot(x_values, y_values, type = "l", col = "blue", lwd = 2,
+     main = "Gráfica de f(x)",
+     xlab = "x", ylab = "f(x)")
+abline(h = 0, col = "red", lty = 2)  
+
+raices_unicas <- c(37.81, 40.73, 44.09)  # Ejemplo de raíces encontradas
+
+points(raices_unicas, rep(0, length(raices_unicas)), col = c("green", "purple", "orange"), 
+       pch = 19, cex = 1.5)
+
+
+legend("topright", legend = paste("Raíz", 1:length(raices_unicas), ":", round(raices_unicas, 5)),
+       col = c("green", "purple", "orange"), pch = 19, cex = 0.8)
+
+##2-a-
+
+SELECT
+c.Country as 'Pais',
+c.City as 'Ciudad',
+COUNT(c.CustomerID) as 'Cant de clientes' #Quise poner DISTINCT pero no lo tomaba la otra pagina
+FROM
+customers c
+LEFT JOIN orders o ON c.CustomerID = o.CustomerID
+WHERE o.OrderID IS NULL
+GROUP BY c.Country, c.City
+
+##b-
+
+SELECT
+c.CategoryID as 'ID de Categoria',
+c.CategoryName as 'Categoria',
+c.Description as 'Descripcion',
+SUM(od.Quantity) as 'Cantidad',
+SUM(p.Price * od.Quantity) as 'Total'
+FROM categories c
+INNER JOIN products p ON c.CategoryID = p.CategoryID
+INNER JOIN orderdetails od ON p.ProductID = od.ProductID
+WHERE p.Unit LIKE '%bottle%'
+GROUP BY c.CategoryID, c.CategoryName, c.Description
+
+##c-
+
+SELECT
+    e.FirstName AS 'Nombre',
+    e.LastName AS 'Apellido',
+    c.CustomerName AS 'Nombre Cliente',
+    o.OrderID AS 'ID de la Orden',
+    p.ProductName AS 'Producto',
+    p.Unit AS 'Presentacion',
+    od.Quantity AS 'Cantidad',
+    p.Price AS 'Precio',
+    p.Price * od.Quantity AS 'Total'
+FROM orders o
+    INNER JOIN (orderdetails od ON o.OrderID = od.OrderID
+    INNER JOIN products p ON p.ProductID = od.ProductID)
+    INNER JOIN customers c ON o.CustomerID = c.CustomerID
+    INNER JOIN employees e ON o.EmployeeID = e.EmployeeID
+WHERE 
+    e.FirstName = 'Nancy' 
+    AND e.LastName = 'Davolio' 
+    AND c.Country = 'Italy'
