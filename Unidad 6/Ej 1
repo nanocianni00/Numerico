@@ -5,14 +5,12 @@ newton <- function(x, TOL, N = 100, ecuaciones){
   # TOL: tolerancia
   # N: cantidad maxima de iteraciones
   
-  # Instancio las variables -------------------------------------------------
   # n: numero de ecuaciones e incognitas
   n <- length(ecuaciones)
   # funciones valuadas en cero
   f0 <- rep(NA, n)
   jacobiano = matrix(rep(NA, n*n), nrow = n, ncol = n)
   
-  # Comienza el metodo ------------------------------------------------------
   for (max_reps in 1:N) {
     # Recorro las filas
     for (i in 1:n) {
