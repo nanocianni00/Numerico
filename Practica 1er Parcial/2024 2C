@@ -172,3 +172,66 @@ raiz_biseccion(0.001, 2, 10^(-10), 10000)
 
 ##3-a-
 
+source("C:/Users/Usuario/Documents/Mariano/BD w3schools (1).r")
+
+resultado3a = sqldf("
+SELECT
+c.CustomerID as 'ID cliente',
+c.CustomerName as 'Nombre',
+COUNT(o.OrderID) as 'Cantidad de ordenes',
+SUM(p.Price * od.Quantity) as 'Total'
+FROM customers c
+INNER JOIN orders o ON c.CustomerID = o.CustomerID
+INNER JOIN orderdetails od ON o.OrderID = od.OrderID
+INNER JOIN products p ON od.ProductID = p.ProductID
+WHERE c.Country = 'USA'
+GROUP BY c.CustomerID
+ORDER BY SUM(p.Price * od.Quantity) DESC
+")
+
+print(resultado3a)
+
+##b-
+
+resultado3b = sqldf("
+SELECT
+c.CustomerID as 'ID cliente',
+c.CustomerName as 'Nombre',
+COUNT(o.OrderID) as 'Cantidad de ordenes',
+SUM(p.Price * od.Quantity) as 'Total'
+FROM customers c
+INNER JOIN orders o ON c.CustomerID = o.CustomerID
+INNER JOIN orderdetails od ON o.OrderID = od.OrderID
+INNER JOIN products p ON od.ProductID = p.ProductID
+INNER JOIN suppliers s ON p.SupplierID = s.SupplierID
+WHERE c.Country = 'USA'
+AND s.Country IN ('Italy', 'Germany', 'France')
+AND (p.Unit LIKE '%bottle$' OR p.Unit LIKE '%pkg%')
+GROUP BY c.CustomerID
+ORDER BY SUM(p.Price * od.Quantity) DESC
+")
+
+print(resultado3b)
+
+##c-
+
+resultado3c = sqldf("
+SELECT
+c.CustomerID as 'ID cliente',
+c.CustomerName as 'Nombre',
+COUNT(o.OrderID) as 'Cantidad de ordenes',
+SUM(p.Price * od.Quantity) as 'Total'
+FROM customers c
+INNER JOIN orders o ON c.CustomerID = o.CustomerID
+INNER JOIN orderdetails od ON o.OrderID = od.OrderID
+INNER JOIN products p ON od.ProductID = p.ProductID
+INNER JOIN suppliers s ON p.SupplierID = s.SupplierID
+WHERE c.Country = 'USA'
+AND s.Country IN ('Italy', 'Germany', 'France')
+AND (p.Unit LIKE '%bottle$' OR p.Unit LIKE '%pkg%')
+GROUP BY c.CustomerID
+HAVING SUM(p.Price * od.Quantity) > 6400 OR COUNT(o.OrderID) >5
+ORDER BY SUM(p.Price * od.Quantity) DESC
+")
+
+print(resultado3c)
