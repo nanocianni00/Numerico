@@ -228,7 +228,7 @@ INNER JOIN products p ON od.ProductID = p.ProductID
 INNER JOIN suppliers s ON p.SupplierID = s.SupplierID
 WHERE c.Country = 'USA'
 AND s.Country IN ('Italy', 'Germany', 'France')
-AND (p.Unit LIKE '%bottle$' OR p.Unit LIKE '%pkg%')
+AND (p.Unit LIKE '%bottle%' OR p.Unit LIKE '%pkg%')
 GROUP BY c.CustomerID
 HAVING SUM(p.Price * od.Quantity) > 6400 OR COUNT(o.OrderID) >5
 ORDER BY SUM(p.Price * od.Quantity) DESC
