@@ -1,2 +1,129 @@
 ##1-a-
 
+f <- function(x) {
+cos(x) / x^3
+}
+
+#Instancio un vector que me va a indicar los puntos en la función
+x <- seq(11, 31, by = 0.01)
+
+#Genero los puntos
+fx <- f(x)
+
+#Creo un data frame con los x e y
+df <- data.frame(x, fx)
+
+#Instancio los datos
+gg_fx <- ggplot(data = df)
+
+#Agrego la capa con los datos
+gg_fx <- gg_fx + aes(x = x, y = fx)
+
+#Est grafica una linea
+gg_fx <- gg_fx + geom_line(linetype = 1, colour = "darkblue")
+
+#Agrego el eje X
+gg_fx <- gg_fx + geom_vline(xintercept = 0, linetype = 1)
+
+#Agrego el eje Y
+gg_fx <- gg_fx + geom_hline(yintercept = 0, linetype = 1)
+
+#Grafico
+gg_fx
+
+##b-
+
+Secante <- function(f,p0,p1,TOL,N){
+  i <- 2
+  q0 <- f(p0)
+  q1 <- f(p1)
+  while (i <= N){ 
+    p = p1 - q1*(p1-p0)/(q1-q0) 
+print(paste("Iteracion:", i, "p:", p)) #Linea que hace que imprima las iteraciones    
+if (abs(p-p1) < TOL){ 
+      return(p)
+    }
+    i = i + 1
+    p0 = p1 
+    q0 = q1
+    p1 = p #
+    q1 = f(p) 
+  }
+  return(paste('El metodo fallo luego de ', n, ' iteraciones'))
+}
+
+##c-
+
+f <- function(x) {
+cos(x) / x^3
+}
+
+Secante(f, 11, 15, 10^(-6), 100)
+Secante(f, 16, 19, 10^(-6), 100)
+Secante(f, 20, 22, 10^(-6), 100)
+Secante(f, 23, 25, 10^(-6), 100)
+Secante(f, 26, 30, 10^(-6), 100)
+
+##d-
+#Le agregue la linea al codigo del punto b
+Secante(f, 16, 19, 10^(-6), 9)
+
+##2-a-
+
+newton_raphson = function(p0, TOL,N){
+  i = 1
+  while(i<=N){
+    x = p0
+    p = p0- Polinomio_newton(p0)/dfnewton(p0)
+    print(p)
+    if(abs(p-p0)<TOL){
+      return(p)
+    }
+    i = i+1
+    p0 = p
+  }
+  return(paste("El metodo fallo luego de", N,"iteraciones"))
+}
+
+Polinomio_newton = function(x) { 
+2 * sin(x) - exp(100/x^7)
+}
+dfnewton = function(x) {
+2 * cos(x) + 100 * 7 * x^(-8) * exp(100/x^7)
+}
+
+print (newton_raphson(5,10^(-6),100))
+
+##b-
+
+newton_raphson = function(p0, TOL,N){
+  i = 1
+  while(i<=N){
+    x = p0
+    p = p0- Polinomio_newton(p0)/dfnewton(p0)
+    print(p) #Agrego linea para que imprima todas las iteraciones
+    if(abs(p-p0)<TOL){
+      return(p)
+    }
+    i = i+1
+    p0 = p
+  }
+  return(paste("El metodo fallo luego de", N,"iteraciones"))
+}
+
+newton_raphson(15,10^(-6),7)
+
+##c-
+
+x_values <- seq(35, 45, by = 0.01)  
+y_values <- sapply(x_values, Polinomio_newton)  
+
+plot(x_values, y_values, type = "l", col = "darkblue", lwd = 2,
+     main = "Gráfica de f(x)",
+     xlab = "x", ylab = "f(x)")
+abline(h = 0, col = "black", lty = 2)  
+
+raices <- c(37.81, 40.73, 44.09)  # Ejemplo de raíces encontradas
+
+points(raices, rep(0, length(raices)), col = c("red", "green", "blue"), 
+       pch = 19, cex = 1.5)
